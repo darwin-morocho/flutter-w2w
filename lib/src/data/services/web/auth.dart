@@ -1,20 +1,19 @@
 import '../../../core/http_client.dart';
 
 class AuthService {
-  final HttpClient _httpClient;
-
   AuthService(
     this._httpClient,
   );
+  final HttpClient _httpClient;
 
-  Future<Result<String>> getRequestToken() {
+  Future<HttpResult<String>> getRequestToken() {
     return _httpClient.request(
       '/authentication/token/new',
       parser: (_, json) => json['request_token'],
     );
   }
 
-  Future<Result<String>> signIn({
+  Future<HttpResult<String>> signIn({
     required String username,
     required String password,
     required String requestToken,
@@ -31,7 +30,7 @@ class AuthService {
     );
   }
 
-  Future<Result<String>> createSession(
+  Future<HttpResult<String>> createSession(
     String requestToken,
   ) {
     return _httpClient.request(
@@ -44,7 +43,7 @@ class AuthService {
     );
   }
 
-  Future<Result> deleteSession(
+  Future<HttpResult> deleteSession(
     String sessionId,
   ) {
     return _httpClient.request(

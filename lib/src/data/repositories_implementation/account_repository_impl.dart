@@ -5,9 +5,7 @@ import '../../domain/repositories/account_repository.dart';
 import '../mixins/handle_http_request_failure_mixin.dart';
 import '../services/web/account.dart';
 
-class AccountRepositoryImpl
-    with HttpRequestFailureMixin
-    implements AccountRepository {
+class AccountRepositoryImpl with HttpRequestFailureMixin implements AccountRepository {
   AccountRepositoryImpl(this._service);
 
   final AccountService _service;
@@ -15,12 +13,14 @@ class AccountRepositoryImpl
   @override
   Future<Either<HttpRequestFailure, User>> get profile async {
     final result = await _service.getProfile();
-    if (result.data != null) {
-      return Right(result.data!);
+    if (result.isRight) {
+      return Right(
+        result.right.data,
+      );
     }
 
     return Left(
-      handleHttpRequestFailure(result),
+      handleHttpRequestFailure(result.left),
     );
   }
 }

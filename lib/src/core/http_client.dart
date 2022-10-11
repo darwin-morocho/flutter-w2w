@@ -1,18 +1,22 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
-import 'package:what_to_watch/src/core/env.dart';
+
+import 'either/either.dart';
+import 'env.dart';
+
+typedef HttpResult<T> = Either<HttpFailure, HttpSuccess<T>>;
 
 class HttpClient {
-  final String baseUrl;
-  late final Client _client;
-
   HttpClient({
     this.baseUrl = '',
     Client? client,
   }) : _client = client ?? Client();
+  final String baseUrl;
+  late final Client _client;
 
-  Future<Result<T>> request<T>(
+  Future<HttpResult<T>> request<T>(
     String path, {
     String method = 'GET',
     bool useApiKey = true,
@@ -23,7 +27,6 @@ class HttpClient {
     T Function(int satusCode, dynamic data)? parser,
   }) async {
     late Uri uri;
-    late final Request request;
     int? statusCode;
     try {
       if (path.startsWith('http://') || path.startsWith('https://')) {
@@ -35,44 +38,87 @@ class HttpClient {
         uri = Uri.parse('$baseUrl$path');
       }
 
-      if (useApiKey) {
-        uri.queryParameters['api_key'] = Env.apiKey;
-      }
-
-      if (queryParameters.isNotEmpty) {
-        uri.queryParameters.addAll(queryParameters);
-      }
-
-      request = Request(method, uri);
-      request.headers['Content-type'] = contentType;
-      request.headers['charset'] = 'utf-8';
-      request.headers.addAll(headers);
-      request.body = jsonEncode(body);
-
-      final streamedResponse = await _client.send(request);
-      statusCode = streamedResponse.statusCode;
-
-      final response = Response.bytes(
-        await streamedResponse.stream.toBytes(),
-        streamedResponse.statusCode,
+      uri = uri.replace(
+        queryParameters: {
+          if (useApiKey) 'api_key': Env.apiKey,
+          ...uri.queryParameters,
+          if (queryParameters.isNotEmpty) ...queryParameters,
+        },
       );
 
-      final decodedBytes = decodeBytes(response.body);
+      late final Response response;
+      switch (method) {
+        case 'GET':
+        case 'get':
+          response = await _client.get(uri, headers: headers);
+          break;
+        case 'POST':
+        case 'post':
+          response = await _client.post(
+            uri,
+            headers: headers,
+            body: jsonEncode(body),
+          );
+          break;
+        case 'PUT':
+        case 'put':
+          response = await _client.put(
+            uri,
+            headers: headers,
+            body: jsonEncode(body),
+          );
+          break;
+        case 'PATCH':
+        case 'patch':
+          response = await _client.patch(
+            uri,
+            headers: headers,
+            body: jsonEncode(body),
+          );
+          break;
+        case 'DELETE':
+        case 'delete':
+          response = await _client.delete(
+            uri,
+            headers: headers,
+            body: jsonEncode(body),
+          );
+          break;
+      }
 
-      if (parser != null) {
-        return Result<T>(
-          statusCode: statusCode,
-          data: parser(statusCode, decodedBytes),
+      statusCode = response.statusCode;
+
+      if (statusCode >= 200 && statusCode <= 300) {
+        final decodedBytes = decodeBytes(response.body);
+
+        if (parser != null) {
+          return Right(
+            HttpSuccess<T>(
+              statusCode: statusCode,
+              data: parser(statusCode, decodedBytes),
+            ),
+          );
+        }
+        return Right(
+          HttpSuccess<T>(
+            statusCode: statusCode,
+            data: decodedBytes,
+          ),
         );
       }
-      return Result<T>(
-        statusCode: statusCode,
-        data: decodedBytes,
-      );
-    } catch (e) {
-      return Result(
-        statusCode: statusCode,
-        exception: e,
+
+      throw Exception(response.body);
+    } catch (e, s) {
+      if (kDebugMode) {
+        print(e);
+        print(s);
+        print(statusCode);
+      }
+      return Left(
+        HttpFailure(
+          statusCode: statusCode,
+          exception: e,
+        ),
       );
     }
   }
@@ -86,14 +132,22 @@ dynamic decodeBytes(String body) {
   }
 }
 
-class Result<T> {
-  final int? statusCode;
-  final T? data;
-  final Object? exception;
+class HttpSuccess<T> {
+  HttpSuccess({
+    required this.statusCode,
+    required this.data,
+  });
+  final int statusCode;
+  final T data;
+}
 
-  Result({
+class HttpFailure {
+  HttpFailure({
     required this.statusCode,
     this.data,
     this.exception,
   });
+  final int? statusCode;
+  final Object? data;
+  final Object? exception;
 }

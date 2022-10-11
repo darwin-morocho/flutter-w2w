@@ -4,7 +4,7 @@ import '../../core/http_client.dart';
 import '../../domain/failures/http_request/http_request_failure.dart';
 
 mixin HttpRequestFailureMixin {
-  HttpRequestFailure handleHttpRequestFailure<L, R>(Result result) {
+  HttpRequestFailure handleHttpRequestFailure<L, R>(HttpFailure result) {
     final statusCode = result.statusCode;
     if (statusCode != null) {
       if (statusCode == 404) {

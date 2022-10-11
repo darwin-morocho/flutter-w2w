@@ -30,12 +30,16 @@ class _MyAppState extends State<MyApp> with RouterMixin, AfterFirstLayout {
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: session.initialized
-            ? MaterialApp.router(
-                title: 'w2w - What To Watch',
-                theme: ThemeData(
-                  primarySwatch: Colors.blue,
+            ? GestureDetector(
+                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                child: MaterialApp.router(
+                  title: 'w2w - What To Watch',
+                  theme: ThemeData(
+                    primarySwatch: Colors.blue,
+                    useMaterial3: true,
+                  ),
+                  routerConfig: router,
                 ),
-                routerConfig: router,
               )
             : const SplashView(),
       ),

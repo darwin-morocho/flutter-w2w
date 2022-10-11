@@ -20,6 +20,9 @@ class SessionBLoC extends ChangeNotifier {
   bool _initialized = false;
   bool get initialized => _initialized;
 
+  bool _mounted = true;
+  bool get mounted => _mounted;
+
   User? _user;
   User? get user => _user;
 
@@ -45,5 +48,11 @@ class SessionBLoC extends ChangeNotifier {
     if (notify) {
       notifyListeners();
     }
+  }
+
+  @override
+  void dispose() {
+    _mounted = false;
+    super.dispose();
   }
 }

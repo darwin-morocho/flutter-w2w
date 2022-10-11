@@ -10,4 +10,7 @@ class Either<L, R> with _$Either<L, R> {
 
   bool get isLeft => this is Left;
   bool get isRight => this is Right;
+
+  L get left => (this as Left).value;
+  R get right => (this as Right).value;
 }
