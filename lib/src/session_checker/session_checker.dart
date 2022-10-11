@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../main.dart';
 import '../../register/register_repositories.dart';
-import '../../router.dart';
+import '../presentation/router/router.dart';
 
 mixin SessionChekerMixin on State<MyApp> {
   bool _initialized = false;

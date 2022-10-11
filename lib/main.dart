@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'register/register_repositories.dart';
 import 'register/register_third_dependencies.dart';
-import 'router.dart';
+import 'src/presentation/global/blocs/session/session_bloc.dart';
 import 'src/presentation/global/views/splash/splash_view.dart';
+import 'src/presentation/router/router.dart';
 import 'src/session_checker/session_checker.dart';
 
 void main() async {
   await registerThirdDependencies();
   registerRepositories();
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => SessionBLoC(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

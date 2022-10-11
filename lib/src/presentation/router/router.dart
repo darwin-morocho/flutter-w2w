@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-import 'main.dart';
-import 'src/presentation/modules/sign_in/view/sign_in_view.dart';
+import '../../../main.dart';
+import '../global/blocs/session/session_bloc.dart';
+import '../modules/sign_in/view/sign_in_view.dart';
 
 mixin RouterMixin on State<MyApp> {
   GoRouter? _router;
@@ -13,6 +15,13 @@ mixin RouterMixin on State<MyApp> {
         GoRoute(
           path: Routes.signIn,
           builder: (_, state) => const SignInView(),
+          redirect: (context, state) {
+            final user = context.read<SessionBLoC>().user;
+            if (user != null) {
+              return Routes.home;
+            }
+            return state.location;
+          },
         ),
         GoRoute(
           path: Routes.home,
