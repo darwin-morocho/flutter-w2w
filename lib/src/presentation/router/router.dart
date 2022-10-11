@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../main.dart';
+import '../../my_app.dart';
 import '../modules/sign_in/view/sign_in_view.dart';
 import 'auth_guard.dart';
 
