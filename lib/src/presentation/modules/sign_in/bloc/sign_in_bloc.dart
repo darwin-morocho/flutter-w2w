@@ -4,7 +4,8 @@ import '../../../../domain/models/user/user.dart';
 import '../../../../domain/repositories/auth_repository.dart';
 import '../../../global/blocs/session/session_bloc.dart';
 import '../../../global/notifiers/state_notifier.dart';
-import 'sign_in_state.dart';
+import 'state/sign_in_state.dart';
+
 
 class SignInBLoC extends StateNotifier<SignInState> {
   SignInBLoC({

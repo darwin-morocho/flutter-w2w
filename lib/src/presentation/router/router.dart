@@ -9,7 +9,13 @@ import '../modules/sign_in/view/sign_in_view.dart';
 import 'auth_guard.dart';
 
 mixin RouterMixin on State<MyApp> {
+  GoRouter? _router;
+
   GoRouter get router {
+    if (_router != null) {
+      return _router!;
+    }
+
     final AppConfigurationBLoC appConfiguration = context.read();
     final initialLocation = appConfiguration.genresConfig.when(
       left: (failure) {
@@ -20,7 +26,7 @@ mixin RouterMixin on State<MyApp> {
       },
       right: (_) => Routes.home,
     );
-    return GoRouter(
+    _router = GoRouter(
       routes: [
         ShellRoute(
           builder: (context, state, child) {
@@ -65,6 +71,8 @@ mixin RouterMixin on State<MyApp> {
       ],
       initialLocation: initialLocation,
     );
+
+    return _router!;
   }
 }
 

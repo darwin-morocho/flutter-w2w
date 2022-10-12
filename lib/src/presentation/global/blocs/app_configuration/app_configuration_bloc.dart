@@ -12,13 +12,13 @@ class AppConfigurationBLoC extends ChangeNotifier {
 
   final GenresRepository genresRepository;
 
-  late Either<HttpRequestFailure, List<Genre>> _genresConfig;
-  Either<HttpRequestFailure, List<Genre>> get genresConfig => _genresConfig;
+  late Either<HttpRequestFailure, Map<int, Genre>> _genresConfig;
+  Either<HttpRequestFailure, Map<int, Genre>> get genresConfig => _genresConfig;
 
   bool _initialized = false;
   bool get initialized => _initialized;
 
-  List<Genre> get genres => _genresConfig.right;
+  Map<int, Genre> get genres => _genresConfig.right;
 
   Future<void> init() async {
     _genresConfig = await genresRepository.getGenres();

@@ -3,5 +3,5 @@ import '../failures/http_request/http_request_failure.dart';
 import '../models/genre/genre.dart';
 
 abstract class GenresRepository {
-  Future<Either<HttpRequestFailure, List<Genre>>> getGenres();
+  Future<Either<HttpRequestFailure, Map<int, Genre>>> getGenres();
 }

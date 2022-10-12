@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'presentation/global/blocs/app_configuration/app_configuration_bloc.dart';
@@ -27,13 +28,15 @@ class _MyAppState extends State<MyApp> with RouterMixin, AfterFirstLayout {
 
   @override
   Widget build(BuildContext context) {
-    final SessionBLoC session = context.watch();
+    final sessionInitialized = context.select<SessionBLoC, bool>(
+      (bloc) => bloc.initialized,
+    );
     final AppConfigurationBLoC appConfiguration = context.watch();
 
     return Material(
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        child: session.initialized && appConfiguration.initialized
+        child: sessionInitialized && appConfiguration.initialized
             ? GestureDetector(
                 onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
                 child: MaterialApp.router(
@@ -41,6 +44,7 @@ class _MyAppState extends State<MyApp> with RouterMixin, AfterFirstLayout {
                   theme: ThemeData(
                     primarySwatch: Colors.blue,
                     useMaterial3: true,
+                    textTheme: GoogleFonts.nunitoSansTextTheme(),
                   ),
                   routerConfig: router,
                 ),

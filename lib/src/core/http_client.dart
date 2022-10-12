@@ -3,10 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
-import 'either/either.dart';
 import 'env.dart';
-
-typedef HttpResult<T> = Either<HttpFailure, HttpSuccess<T>>;
 
 class HttpClient {
   HttpClient({
@@ -21,6 +18,7 @@ class HttpClient {
     String method = 'GET',
     bool useApiKey = true,
     String contentType = 'application/json',
+    String? language,
     Map<String, String> headers = const {},
     Map<String, String> queryParameters = const {},
     Map<String, dynamic> body = const {},
@@ -41,6 +39,7 @@ class HttpClient {
       uri = uri.replace(
         queryParameters: {
           if (useApiKey) 'api_key': Env.apiKey,
+          if (language != null) 'language': language,
           ...uri.queryParameters,
           if (queryParameters.isNotEmpty) ...queryParameters,
         },
@@ -91,19 +90,19 @@ class HttpClient {
       if (statusCode >= 200 && statusCode <= 300) {
         final decodedBytes = decodeBytes(response.body);
 
+        if (kDebugMode) {
+          print(uri);
+        }
+
         if (parser != null) {
-          return Right(
-            HttpSuccess<T>(
-              statusCode: statusCode,
-              data: parser(statusCode, decodedBytes),
-            ),
+          return HttpResult(
+            statusCode: statusCode,
+            data: parser(statusCode, decodedBytes),
           );
         }
-        return Right(
-          HttpSuccess<T>(
-            statusCode: statusCode,
-            data: decodedBytes,
-          ),
+        return HttpResult(
+          statusCode: statusCode,
+          data: decodedBytes,
         );
       }
 
@@ -114,10 +113,11 @@ class HttpClient {
         print(s);
         print(statusCode);
       }
-      return Left(
-        HttpFailure(
-          statusCode: statusCode,
+      return HttpResult(
+        statusCode: statusCode,
+        failure: HttpFailure(
           exception: e,
+          stackTrace: s,
         ),
       );
     }
@@ -132,22 +132,26 @@ dynamic decodeBytes(String body) {
   }
 }
 
-class HttpSuccess<T> {
-  HttpSuccess({
+class HttpResult<T> {
+  HttpResult({
     required this.statusCode,
-    required this.data,
+    this.data,
+    this.failure,
   });
-  final int statusCode;
-  final T data;
+
+  final int? statusCode;
+  T? data;
+  HttpFailure? failure;
 }
 
 class HttpFailure {
   HttpFailure({
-    required this.statusCode,
     this.data,
     this.exception,
+    required this.stackTrace,
   });
-  final int? statusCode;
+
   final Object? data;
   final Object? exception;
+  final StackTrace stackTrace;
 }

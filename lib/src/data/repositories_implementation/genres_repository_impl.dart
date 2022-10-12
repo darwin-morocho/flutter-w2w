@@ -11,27 +11,15 @@ class GenresRepositoryImpl with HttpRequestFailureMixin implements GenresReposit
   final GenresService _service;
 
   @override
-  Future<Either<HttpRequestFailure, List<Genre>>> getGenres() async {
-    final moviesResult = await _service.getMovieGenres();
+  Future<Either<HttpRequestFailure, Map<int, Genre>>> getGenres() async {
+    final result = await _service.getGenres();
 
-    return moviesResult.when(
-      left: (failure) async => Left(
-        handleHttpRequestFailure(failure),
-      ),
-      right: (movieGenres) async {
-        final result = await _service.getTvGenres();
-        return result.when(
-          left: (failure) => Left(
-            handleHttpRequestFailure(failure),
-          ),
-          right: (tvGenres) => Right(
-            [
-              ...movieGenres.data,
-              ...tvGenres.data,
-            ],
-          ),
-        );
-      },
+    if (result.data != null) {
+      return Right(result.data!);
+    }
+
+    return Left(
+      handleHttpRequestFailure(result),
     );
   }
 }

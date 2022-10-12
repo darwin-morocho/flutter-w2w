@@ -13,14 +13,14 @@ class AccountRepositoryImpl with HttpRequestFailureMixin implements AccountRepos
   @override
   Future<Either<HttpRequestFailure, User>> get profile async {
     final result = await _service.getProfile();
-    if (result.isRight) {
+    if (result.data != null) {
       return Right(
-        result.right.data,
+        result.data!,
       );
     }
 
     return Left(
-      handleHttpRequestFailure(result.left),
+      handleHttpRequestFailure(result),
     );
   }
 }

@@ -4,7 +4,7 @@ import '../../core/http_client.dart';
 import '../../domain/failures/http_request/http_request_failure.dart';
 
 mixin HttpRequestFailureMixin {
-  HttpRequestFailure handleHttpRequestFailure<L, R>(HttpFailure result) {
+  HttpRequestFailure handleHttpRequestFailure<L, R>(HttpResult result) {
     final statusCode = result.statusCode;
     if (statusCode != null) {
       if (statusCode == 404) {
@@ -25,7 +25,7 @@ mixin HttpRequestFailureMixin {
       return const NetworkFailure();
     }
 
-    if (result.exception is SocketException) {
+    if (result.failure?.exception is SocketException) {
       return const NetworkFailure();
     }
 

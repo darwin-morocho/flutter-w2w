@@ -28,47 +28,47 @@ class AuthRepositoryImpl with HttpRequestFailureMixin implements AuthRepository 
   }) async {
     final requestTokenResult = await _authService.getRequestToken();
 
-    if (requestTokenResult.isLeft) {
+    if (requestTokenResult.failure != null) {
       return Left(
-        handleHttpRequestFailure(requestTokenResult.left),
+        handleHttpRequestFailure(requestTokenResult),
       );
     }
 
     final signInResult = await _authService.signIn(
       password: password,
-      requestToken: requestTokenResult.right.data,
+      requestToken: requestTokenResult.data!,
       username: username,
     );
 
-    if (signInResult.isLeft) {
+    if (signInResult.failure != null) {
       return Left(
-        handleHttpRequestFailure(signInResult.left),
+        handleHttpRequestFailure(signInResult),
       );
     }
 
     final sessionResult = await _authService.createSession(
-      signInResult.right.data,
+      signInResult.data!,
     );
 
-    if (sessionResult.isLeft) {
+    if (sessionResult.failure != null) {
       return Left(
-        handleHttpRequestFailure(sessionResult.left),
+        handleHttpRequestFailure(sessionResult),
       );
     }
 
-    await _sessionService.setId(sessionResult.right.data);
+    await _sessionService.setId(sessionResult.data!);
 
     final profileResult = await _accountService.getProfile();
 
-    if (sessionResult.isLeft) {
+    if (sessionResult.failure != null) {
       await _sessionService.deleteId();
       return Left(
-        handleHttpRequestFailure(profileResult.left),
+        handleHttpRequestFailure(profileResult),
       );
     }
 
     return Right(
-      profileResult.right.data,
+      profileResult.data!,
     );
   }
 

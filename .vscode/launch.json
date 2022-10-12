@@ -8,6 +8,7 @@
             "args": [
                 "--dart-define=API_KEY=20ac754dbe6ba584a7a8a8690c755249",
                 "--dart-define=BASE_URL=https://api.themoviedb.org/3",
+                "--dart-define=BASE_IMAGE_URL=https://image.tmdb.org/t/p/w500/",
             ]
         }
     ]
