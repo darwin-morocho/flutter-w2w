@@ -2,13 +2,21 @@ import 'package:get_it/get_it.dart';
 
 import '../src/data/repositories_implementation/account_repository_impl.dart';
 import '../src/data/repositories_implementation/auth_repository_impl.dart';
+import '../src/data/repositories_implementation/genres_repository_impl.dart';
+import '../src/data/repositories_implementation/language_repository_impl.dart';
+import '../src/data/services/local/language_service.dart';
 import '../src/data/services/local/session.dart';
 import '../src/data/services/web/account.dart';
 import '../src/data/services/web/auth.dart';
+import '../src/data/services/web/genre.dart';
 import '../src/domain/repositories/account_repository.dart';
 import '../src/domain/repositories/auth_repository.dart';
+import '../src/domain/repositories/genres_repository.dart';
+import '../src/domain/repositories/language_repository.dart';
 
-void registerRepositories() {
+void registerRepositories({
+  required String defaultLanguageCode,
+}) {
   final sessionService = SessionService(
     GetIt.I.get(),
   );
@@ -20,6 +28,8 @@ void registerRepositories() {
     GetIt.I.get(),
     sessionService,
   );
+
+  final languageService = LanguageService(defaultLanguageCode);
 
   GetIt.I.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
@@ -37,6 +47,21 @@ void registerRepositories() {
       ),
     ),
   );
+
+  GetIt.I.registerLazySingleton<LanguageRepository>(
+    () => LanguageRepositoryImpl(
+      languageService,
+    ),
+  );
+
+  GetIt.I.registerLazySingleton<GenresRepository>(
+    () => GenresRepositoryImpl(
+      GenresService(
+        GetIt.I.get(),
+        languageService,
+      ),
+    ),
+  );
 }
 
 class Repositories {
@@ -44,4 +69,6 @@ class Repositories {
 
   static AuthRepository get auth => GetIt.I.get();
   static AccountRepository get account => GetIt.I.get();
+  static LanguageRepository get language => GetIt.I.get();
+  static GenresRepository get genres => GetIt.I.get();
 }

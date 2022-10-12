@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'presentation/global/blocs/app_configuration/app_configuration_bloc.dart';
 import 'presentation/global/blocs/session/session_bloc.dart';
 import 'presentation/global/mixins/after_first_layout.dart';
 import 'presentation/global/views/splash/splash_view.dart';
@@ -18,18 +19,21 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with RouterMixin, AfterFirstLayout {
   @override
   FutureOr<void> onAfterFirstLayout() {
+    final AppConfigurationBLoC appConfiguration = context.read();
     final SessionBLoC session = context.read();
+    appConfiguration.init();
     session.init();
   }
 
   @override
   Widget build(BuildContext context) {
     final SessionBLoC session = context.watch();
+    final AppConfigurationBLoC appConfiguration = context.watch();
 
     return Material(
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        child: session.initialized
+        child: session.initialized && appConfiguration.initialized
             ? GestureDetector(
                 onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
                 child: MaterialApp.router(
