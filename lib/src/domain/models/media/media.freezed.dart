@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'trending.dart';
+part of 'media.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Trending _$TrendingFromJson(Map<String, dynamic> json) {
-  return _Trending.fromJson(json);
+Media _$MediaFromJson(Map<String, dynamic> json) {
+  return _Media.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Trending {
+mixin _$Media {
   int get id => throw _privateConstructorUsedError;
   bool get adult => throw _privateConstructorUsedError;
   String get overview => throw _privateConstructorUsedError;
@@ -45,14 +45,13 @@ mixin _$Trending {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TrendingCopyWith<Trending> get copyWith =>
-      throw _privateConstructorUsedError;
+  $MediaCopyWith<Media> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TrendingCopyWith<$Res> {
-  factory $TrendingCopyWith(Trending value, $Res Function(Trending) then) =
-      _$TrendingCopyWithImpl<$Res>;
+abstract class $MediaCopyWith<$Res> {
+  factory $MediaCopyWith(Media value, $Res Function(Media) then) =
+      _$MediaCopyWithImpl<$Res>;
   $Res call(
       {int id,
       bool adult,
@@ -79,12 +78,12 @@ abstract class $TrendingCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TrendingCopyWithImpl<$Res> implements $TrendingCopyWith<$Res> {
-  _$TrendingCopyWithImpl(this._value, this._then);
+class _$MediaCopyWithImpl<$Res> implements $MediaCopyWith<$Res> {
+  _$MediaCopyWithImpl(this._value, this._then);
 
-  final Trending _value;
+  final Media _value;
   // ignore: unused_field
-  final $Res Function(Trending) _then;
+  final $Res Function(Media) _then;
 
   @override
   $Res call({
@@ -160,10 +159,9 @@ class _$TrendingCopyWithImpl<$Res> implements $TrendingCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_TrendingCopyWith<$Res> implements $TrendingCopyWith<$Res> {
-  factory _$$_TrendingCopyWith(
-          _$_Trending value, $Res Function(_$_Trending) then) =
-      __$$_TrendingCopyWithImpl<$Res>;
+abstract class _$$_MediaCopyWith<$Res> implements $MediaCopyWith<$Res> {
+  factory _$$_MediaCopyWith(_$_Media value, $Res Function(_$_Media) then) =
+      __$$_MediaCopyWithImpl<$Res>;
   @override
   $Res call(
       {int id,
@@ -191,14 +189,13 @@ abstract class _$$_TrendingCopyWith<$Res> implements $TrendingCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_TrendingCopyWithImpl<$Res> extends _$TrendingCopyWithImpl<$Res>
-    implements _$$_TrendingCopyWith<$Res> {
-  __$$_TrendingCopyWithImpl(
-      _$_Trending _value, $Res Function(_$_Trending) _then)
-      : super(_value, (v) => _then(v as _$_Trending));
+class __$$_MediaCopyWithImpl<$Res> extends _$MediaCopyWithImpl<$Res>
+    implements _$$_MediaCopyWith<$Res> {
+  __$$_MediaCopyWithImpl(_$_Media _value, $Res Function(_$_Media) _then)
+      : super(_value, (v) => _then(v as _$_Media));
 
   @override
-  _$_Trending get _value => super._value as _$_Trending;
+  _$_Media get _value => super._value as _$_Media;
 
   @override
   $Res call({
@@ -216,7 +213,7 @@ class __$$_TrendingCopyWithImpl<$Res> extends _$TrendingCopyWithImpl<$Res>
     Object? firstAirDate = freezed,
     Object? mediaType = freezed,
   }) {
-    return _then(_$_Trending(
+    return _then(_$_Media(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -275,8 +272,8 @@ class __$$_TrendingCopyWithImpl<$Res> extends _$TrendingCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Trending implements _Trending {
-  _$_Trending(
+class _$_Media implements _Media {
+  _$_Media(
       {required this.id,
       required this.adult,
       required this.overview,
@@ -301,8 +298,8 @@ class _$_Trending implements _Trending {
           required this.mediaType})
       : _genreIds = genreIds;
 
-  factory _$_Trending.fromJson(Map<String, dynamic> json) =>
-      _$$_TrendingFromJson(json);
+  factory _$_Media.fromJson(Map<String, dynamic> json) =>
+      _$$_MediaFromJson(json);
 
   @override
   final int id;
@@ -347,14 +344,14 @@ class _$_Trending implements _Trending {
 
   @override
   String toString() {
-    return 'Trending(id: $id, adult: $adult, overview: $overview, popularity: $popularity, title: $title, originalTitle: $originalTitle, backdropPath: $backdropPath, posterPath: $posterPath, genreIds: $genreIds, voteAverage: $voteAverage, voteCount: $voteCount, firstAirDate: $firstAirDate, mediaType: $mediaType)';
+    return 'Media(id: $id, adult: $adult, overview: $overview, popularity: $popularity, title: $title, originalTitle: $originalTitle, backdropPath: $backdropPath, posterPath: $posterPath, genreIds: $genreIds, voteAverage: $voteAverage, voteCount: $voteCount, firstAirDate: $firstAirDate, mediaType: $mediaType)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Trending &&
+            other is _$_Media &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.adult, adult) &&
             const DeepCollectionEquality().equals(other.overview, overview) &&
@@ -396,19 +393,19 @@ class _$_Trending implements _Trending {
 
   @JsonKey(ignore: true)
   @override
-  _$$_TrendingCopyWith<_$_Trending> get copyWith =>
-      __$$_TrendingCopyWithImpl<_$_Trending>(this, _$identity);
+  _$$_MediaCopyWith<_$_Media> get copyWith =>
+      __$$_MediaCopyWithImpl<_$_Media>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TrendingToJson(
+    return _$$_MediaToJson(
       this,
     );
   }
 }
 
-abstract class _Trending implements Trending {
-  factory _Trending(
+abstract class _Media implements Media {
+  factory _Media(
       {required final int id,
       required final bool adult,
       required final String overview,
@@ -430,9 +427,9 @@ abstract class _Trending implements Trending {
       @JsonKey(name: 'first_air_date')
           required final DateTime? firstAirDate,
       @JsonKey(name: 'media_type', fromJson: _mediaTypeFromJson)
-          required final MediaType mediaType}) = _$_Trending;
+          required final MediaType mediaType}) = _$_Media;
 
-  factory _Trending.fromJson(Map<String, dynamic> json) = _$_Trending.fromJson;
+  factory _Media.fromJson(Map<String, dynamic> json) = _$_Media.fromJson;
 
   @override
   int get id;
@@ -471,6 +468,6 @@ abstract class _Trending implements Trending {
   MediaType get mediaType;
   @override
   @JsonKey(ignore: true)
-  _$$_TrendingCopyWith<_$_Trending> get copyWith =>
+  _$$_MediaCopyWith<_$_Media> get copyWith =>
       throw _privateConstructorUsedError;
 }

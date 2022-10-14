@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../register/register_repositories.dart';
-import '../../../../global/blocs/app_configuration/app_configuration_bloc.dart';
-import '../../../../router/router.dart';
+import '../../../global/blocs/app_configuration/app_configuration_bloc.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/state/home_state.dart';
 import 'widgets/trending_list.dart';
@@ -50,15 +48,7 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
               ),
-              MaterialButton(
-                onPressed: () async {
-                  await Repositories.auth.signOut();
-                  // sessionBLoC.setUser(null, notify: false);
-                  // ignore: use_build_context_synchronously
-                  context.go(Routes.signIn);
-                },
-                child: const Text('sign out'),
-              ),
+             
             ],
           ),
         ),

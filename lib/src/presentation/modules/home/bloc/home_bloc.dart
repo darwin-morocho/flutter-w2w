@@ -1,5 +1,5 @@
-import '../../../../../domain/repositories/trending_repository.dart';
-import '../../../../global/notifiers/state_notifier.dart';
+import '../../../../domain/repositories/trending_repository.dart';
+import '../../../global/notifiers/state_notifier.dart';
 import 'state/home_state.dart';
 
 class HomeBLoC extends StateNotifier<HomeState> {
@@ -15,9 +15,9 @@ class HomeBLoC extends StateNotifier<HomeState> {
       state = const HomeLoading();
     }
     final result = await trendingRepository.getTrendingList();
-    result.when(
-      left: (_) => state = const HomeFailed(),
-      right: (list) => state = HomeLoaded(trendingList: list),
+    state = result.when(
+      left: (_) => const HomeFailed(),
+      right: (list) => HomeLoaded(trendingList: list),
     );
   }
 }

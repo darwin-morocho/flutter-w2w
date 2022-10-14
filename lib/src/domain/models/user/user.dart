@@ -2,6 +2,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../core/typedefs.dart';
+
 part 'user.freezed.dart';
 part 'user.g.dart';
 
@@ -13,5 +15,5 @@ class User with _$User {
     @JsonKey(name: 'include_adult') required bool includeAdult,
   }) = _User;
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory User.fromJson(Json json) => _$UserFromJson(json);
 }

@@ -1,13 +1,16 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:path/path.dart';
 
-import '../../../../../../core/env.dart';
-import '../../../../../../domain/models/trending/trending.dart';
+import '../../../../../core/env.dart';
+import '../../../../../domain/models/media/media.dart';
+import '../../../../router/router.dart';
 
 class TrendingList extends StatefulWidget {
   const TrendingList({super.key, required this.trendingList});
 
-  final List<Trending> trendingList;
+  final List<Media> trendingList;
 
   @override
   State<TrendingList> createState() => _TrendingListState();
@@ -71,9 +74,29 @@ class _TrendingListState extends State<TrendingList> {
                   borderRadius: BorderRadius.circular(10),
                   child: SizedBox(
                     width: 200,
-                    child: ExtendedImage.network(
-                      Env.getImageUrl(item.posterPath),
-                      fit: BoxFit.cover,
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: ExtendedImage.network(
+                            Env.getImageUrl(item.posterPath),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned.fill(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => context.push(
+                                join(
+                                  Routes.home,
+                                  Routes.movie.builder(item.id),
+                                ),
+                                extra: item,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

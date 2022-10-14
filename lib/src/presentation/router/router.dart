@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 
 import '../../my_app.dart';
 import '../global/blocs/app_configuration/app_configuration_bloc.dart';
-import '../modules/sign_in/home/view/home_view.dart';
+import '../global/widgets/main_scaffold.dart';
+import '../modules/home/view/home_view.dart';
+import '../modules/movie/view/movie_view.dart';
 import '../modules/sign_in/view/sign_in_view.dart';
 import 'auth_guard.dart';
 
@@ -29,35 +31,15 @@ mixin RouterMixin on State<MyApp> {
     _router = GoRouter(
       routes: [
         ShellRoute(
-          builder: (context, state, child) {
-            return Scaffold(
-              body: SafeArea(
-                child: child,
-              ),
-              bottomNavigationBar: BottomNavigationBar(
-                onTap: (index) {
-                  if (context.canPop()) {
-                    context.pop();
-                  }
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.favorite),
-                    label: 'favorite',
-                  ),
-                ],
-              ),
-            );
-          },
+          builder: (_, state, child) => MainScaffold(state: state, child: child),
           routes: [
             GoRoute(
               path: Routes.home,
               builder: (_, state) => const HomeView(),
               redirect: authGuard,
+              routes: [
+                MovieView.route,
+              ],
             ),
           ],
         ),
@@ -83,4 +65,16 @@ class Routes {
   static const signIn = '/sign-in';
   static const offline = '/offline';
   static const serverError = '/server-error';
+
+  static final movie = _ComposedRoute(
+    'movie/:id',
+    (int id) => 'movie/$id',
+  );
+}
+
+class _ComposedRoute<Arguments> {
+  _ComposedRoute(this.path, this.builder);
+
+  final String path;
+  final String Function(Arguments) builder;
 }

@@ -2,14 +2,15 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../core/typedefs.dart';
 import '../enums.dart';
 
-part 'trending.freezed.dart';
-part 'trending.g.dart';
+part 'media.freezed.dart';
+part 'media.g.dart';
 
 @freezed
-class Trending with _$Trending {
-  factory Trending({
+class Media with _$Media {
+  factory Media({
     required int id,
     required bool adult,
     required String overview,
@@ -23,9 +24,9 @@ class Trending with _$Trending {
     @JsonKey(name: 'vote_count') required double voteCount,
     @JsonKey(name: 'first_air_date') required DateTime? firstAirDate,
     @JsonKey(name: 'media_type', fromJson: _mediaTypeFromJson) required MediaType mediaType,
-  }) = _Trending;
+  }) = _Media;
 
-  factory Trending.fromJson(Map<String, dynamic> json) => _$TrendingFromJson(json);
+  factory Media.fromJson(Json json) => _$MediaFromJson(json);
 }
 
 String _readTitle(Map map, String _) {

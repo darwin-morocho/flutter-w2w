@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../../domain/models/trending/trending.dart';
+import '../../../../../domain/models/media/media.dart';
 
 part 'home_state.freezed.dart';
 
@@ -9,6 +9,6 @@ class HomeState with _$HomeState {
   const factory HomeState.loading() = HomeLoading;
   const factory HomeState.failed() = HomeFailed;
   const factory HomeState.loaded({
-    required List<Trending> trendingList,
+    required List<Media> trendingList,
   }) = HomeLoaded;
 }

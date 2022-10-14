@@ -4,17 +4,20 @@ import '../src/data/repositories_implementation/account_repository_impl.dart';
 import '../src/data/repositories_implementation/auth_repository_impl.dart';
 import '../src/data/repositories_implementation/genres_repository_impl.dart';
 import '../src/data/repositories_implementation/language_repository_impl.dart';
+import '../src/data/repositories_implementation/movies_repository_impl.dart';
 import '../src/data/repositories_implementation/trending_repository_impl.dart';
 import '../src/data/services/local/language_service.dart';
 import '../src/data/services/local/session.dart';
 import '../src/data/services/web/account.dart';
 import '../src/data/services/web/auth.dart';
 import '../src/data/services/web/genre.dart';
+import '../src/data/services/web/movies.dart';
 import '../src/data/services/web/trending.dart';
 import '../src/domain/repositories/account_repository.dart';
 import '../src/domain/repositories/auth_repository.dart';
 import '../src/domain/repositories/genres_repository.dart';
 import '../src/domain/repositories/language_repository.dart';
+import '../src/domain/repositories/movies_repository.dart';
 import '../src/domain/repositories/trending_repository.dart';
 
 void registerRepositories({
@@ -74,6 +77,15 @@ void registerRepositories({
       ),
     ),
   );
+
+  GetIt.I.registerLazySingleton<MoviesRepository>(
+    () => MoviesRepositoryImpl(
+      MoviesService(
+        GetIt.I.get(),
+        languageService,
+      ),
+    ),
+  );
 }
 
 class Repositories {
@@ -84,4 +96,5 @@ class Repositories {
   static LanguageRepository get language => GetIt.I.get();
   static GenresRepository get genres => GetIt.I.get();
   static TrendingRepository get trending => GetIt.I.get();
+  static MoviesRepository get movies => GetIt.I.get();
 }
