@@ -21,12 +21,25 @@ class Media with _$Media {
     @JsonKey(name: 'poster_path') required String posterPath,
     @JsonKey(name: 'genre_ids') required List<int> genreIds,
     @JsonKey(name: 'vote_average') required double voteAverage,
-    @JsonKey(name: 'vote_count') required double voteCount,
+    @JsonKey(name: 'vote_count') required int voteCount,
     @JsonKey(name: 'first_air_date') required DateTime? firstAirDate,
     @JsonKey(name: 'media_type', fromJson: _mediaTypeFromJson) required MediaType mediaType,
   }) = _Media;
 
   factory Media.fromJson(Json json) => _$MediaFromJson(json);
+
+  static List<Media> getMediaList(List data) {
+    final list = <Media>[];
+    final mediaTypes = MediaType.values.map((e) => e.name);
+    for (final e in data) {
+      if (mediaTypes.contains(e['media_type']) &&
+          e['poster_path'] != null &&
+          e['backdrop_path'] != null) {
+        list.add(Media.fromJson(e));
+      }
+    }
+    return list;
+  }
 }
 
 String _readTitle(Map map, String _) {

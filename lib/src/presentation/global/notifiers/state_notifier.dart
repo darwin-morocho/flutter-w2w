@@ -28,7 +28,7 @@ abstract class StateNotifier<State> extends ChangeNotifier {
     if (state != newState) {
       _oldState = state;
       _state = newState;
-      if (notify) {
+      if (notify && hasListeners && mounted) {
         notifyListeners();
       }
     }

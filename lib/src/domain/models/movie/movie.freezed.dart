@@ -36,7 +36,7 @@ mixin _$Movie {
   String get overview => throw _privateConstructorUsedError;
   double get popularity => throw _privateConstructorUsedError;
   @JsonKey(name: 'poster_path')
-  String? get posterPath => throw _privateConstructorUsedError;
+  String get posterPath => throw _privateConstructorUsedError;
   @JsonKey(name: 'production_companies')
   List<ProductionCompany> get productionCompanies =>
       throw _privateConstructorUsedError;
@@ -85,7 +85,7 @@ abstract class $MovieCopyWith<$Res> {
       String overview,
       double popularity,
       @JsonKey(name: 'poster_path')
-          String? posterPath,
+          String posterPath,
       @JsonKey(name: 'production_companies')
           List<ProductionCompany> productionCompanies,
       @JsonKey(name: 'production_countries')
@@ -189,7 +189,7 @@ class _$MovieCopyWithImpl<$Res> implements $MovieCopyWith<$Res> {
       posterPath: posterPath == freezed
           ? _value.posterPath
           : posterPath // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       productionCompanies: productionCompanies == freezed
           ? _value.productionCompanies
           : productionCompanies // ignore: cast_nullable_to_non_nullable
@@ -264,7 +264,7 @@ abstract class _$$_MovieCopyWith<$Res> implements $MovieCopyWith<$Res> {
       String overview,
       double popularity,
       @JsonKey(name: 'poster_path')
-          String? posterPath,
+          String posterPath,
       @JsonKey(name: 'production_companies')
           List<ProductionCompany> productionCompanies,
       @JsonKey(name: 'production_countries')
@@ -369,7 +369,7 @@ class __$$_MovieCopyWithImpl<$Res> extends _$MovieCopyWithImpl<$Res>
       posterPath: posterPath == freezed
           ? _value.posterPath
           : posterPath // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       productionCompanies: productionCompanies == freezed
           ? _value._productionCompanies
           : productionCompanies // ignore: cast_nullable_to_non_nullable
@@ -502,7 +502,7 @@ class _$_Movie implements _Movie {
   final double popularity;
   @override
   @JsonKey(name: 'poster_path')
-  final String? posterPath;
+  final String posterPath;
   final List<ProductionCompany> _productionCompanies;
   @override
   @JsonKey(name: 'production_companies')
@@ -656,7 +656,7 @@ abstract class _Movie implements Movie {
       required final String overview,
       required final double popularity,
       @JsonKey(name: 'poster_path')
-          required final String? posterPath,
+          required final String posterPath,
       @JsonKey(name: 'production_companies')
           required final List<ProductionCompany> productionCompanies,
       @JsonKey(name: 'production_countries')
@@ -706,7 +706,7 @@ abstract class _Movie implements Movie {
   double get popularity;
   @override
   @JsonKey(name: 'poster_path')
-  String? get posterPath;
+  String get posterPath;
   @override
   @JsonKey(name: 'production_companies')
   List<ProductionCompany> get productionCompanies;

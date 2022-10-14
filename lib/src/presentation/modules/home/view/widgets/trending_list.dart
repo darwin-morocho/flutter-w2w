@@ -77,9 +77,12 @@ class _TrendingListState extends State<TrendingList> {
                     child: Stack(
                       children: [
                         Positioned.fill(
-                          child: ExtendedImage.network(
-                            Env.getImageUrl(item.posterPath),
-                            fit: BoxFit.cover,
+                          child: Hero(
+                            tag: 'movie-${item.id}',
+                            child: ExtendedImage.network(
+                              Env.getImageUrl(item.posterPath),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         Positioned.fill(

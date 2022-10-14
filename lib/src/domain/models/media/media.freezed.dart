@@ -37,7 +37,7 @@ mixin _$Media {
   @JsonKey(name: 'vote_average')
   double get voteAverage => throw _privateConstructorUsedError;
   @JsonKey(name: 'vote_count')
-  double get voteCount => throw _privateConstructorUsedError;
+  int get voteCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'first_air_date')
   DateTime? get firstAirDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'media_type', fromJson: _mediaTypeFromJson)
@@ -70,7 +70,7 @@ abstract class $MediaCopyWith<$Res> {
       @JsonKey(name: 'vote_average')
           double voteAverage,
       @JsonKey(name: 'vote_count')
-          double voteCount,
+          int voteCount,
       @JsonKey(name: 'first_air_date')
           DateTime? firstAirDate,
       @JsonKey(name: 'media_type', fromJson: _mediaTypeFromJson)
@@ -145,7 +145,7 @@ class _$MediaCopyWithImpl<$Res> implements $MediaCopyWith<$Res> {
       voteCount: voteCount == freezed
           ? _value.voteCount
           : voteCount // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       firstAirDate: firstAirDate == freezed
           ? _value.firstAirDate
           : firstAirDate // ignore: cast_nullable_to_non_nullable
@@ -181,7 +181,7 @@ abstract class _$$_MediaCopyWith<$Res> implements $MediaCopyWith<$Res> {
       @JsonKey(name: 'vote_average')
           double voteAverage,
       @JsonKey(name: 'vote_count')
-          double voteCount,
+          int voteCount,
       @JsonKey(name: 'first_air_date')
           DateTime? firstAirDate,
       @JsonKey(name: 'media_type', fromJson: _mediaTypeFromJson)
@@ -257,7 +257,7 @@ class __$$_MediaCopyWithImpl<$Res> extends _$MediaCopyWithImpl<$Res>
       voteCount: voteCount == freezed
           ? _value.voteCount
           : voteCount // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       firstAirDate: firstAirDate == freezed
           ? _value.firstAirDate
           : firstAirDate // ignore: cast_nullable_to_non_nullable
@@ -334,7 +334,7 @@ class _$_Media implements _Media {
   final double voteAverage;
   @override
   @JsonKey(name: 'vote_count')
-  final double voteCount;
+  final int voteCount;
   @override
   @JsonKey(name: 'first_air_date')
   final DateTime? firstAirDate;
@@ -423,7 +423,7 @@ abstract class _Media implements Media {
       @JsonKey(name: 'vote_average')
           required final double voteAverage,
       @JsonKey(name: 'vote_count')
-          required final double voteCount,
+          required final int voteCount,
       @JsonKey(name: 'first_air_date')
           required final DateTime? firstAirDate,
       @JsonKey(name: 'media_type', fromJson: _mediaTypeFromJson)
@@ -459,7 +459,7 @@ abstract class _Media implements Media {
   double get voteAverage;
   @override
   @JsonKey(name: 'vote_count')
-  double get voteCount;
+  int get voteCount;
   @override
   @JsonKey(name: 'first_air_date')
   DateTime? get firstAirDate;

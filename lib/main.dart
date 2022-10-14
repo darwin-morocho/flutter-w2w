@@ -7,7 +7,10 @@ import 'register/register_repositories.dart';
 import 'register/register_third_dependencies.dart';
 import 'src/my_app.dart';
 import 'src/presentation/global/blocs/app_configuration/app_configuration_bloc.dart';
+import 'src/presentation/global/blocs/favorites/bloc.dart';
+import 'src/presentation/global/blocs/favorites/state/state.dart';
 import 'src/presentation/global/blocs/session/session_bloc.dart';
+import 'src/presentation/global/widgets/loader.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +21,7 @@ void main() async {
   registerRepositories(
     defaultLanguageCode: defaultLanguageCode,
   );
+
   runApp(
     MultiProvider(
       providers: [
@@ -32,9 +36,17 @@ void main() async {
             genresRepository: Repositories.genres,
           ),
         ),
+        ChangeNotifierProvider(
+          create: (_) => FavoritesBloc(
+            const FavoritesMustBeInitialized(),
+            accountRepository: Repositories.account,
+          ),
+        ),
       ],
       child: TranslationProvider(
-        child: const MyApp(),
+        child: const Loader(
+          child: MyApp(),
+        ),
       ),
     ),
   );

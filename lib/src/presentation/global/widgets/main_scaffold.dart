@@ -1,7 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-class MainScaffold extends StatelessWidget {
+import '../blocs/favorites/bloc.dart';
+import '../mixins/after_first_layout.dart';
+
+class MainScaffold extends StatefulWidget {
   const MainScaffold({
     super.key,
     required this.child,
@@ -11,11 +17,16 @@ class MainScaffold extends StatelessWidget {
   final Widget child;
 
   @override
+  State<MainScaffold> createState() => _MainScaffoldState();
+}
+
+class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         top: false,
-        child: child,
+        child: widget.child,
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
@@ -34,6 +45,16 @@ class MainScaffold extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  @override
+  FutureOr<void> onAfterFirstLayout() {
+    final FavoritesBloc favoritesBloc = context.read();
+    favoritesBloc.state.whenOrNull(
+      mustBeInitialized: () {
+        favoritesBloc.init();
+      },
     );
   }
 }

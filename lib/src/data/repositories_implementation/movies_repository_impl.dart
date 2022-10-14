@@ -1,5 +1,6 @@
 import '../../core/either/either.dart';
 import '../../domain/failures/http_request/http_request_failure.dart';
+import '../../domain/models/media/media.dart';
 import '../../domain/models/movie/movie.dart';
 import '../../domain/repositories/movies_repository.dart';
 import '../mixins/handle_http_request_failure_mixin.dart';
@@ -13,6 +14,17 @@ class MoviesRepositoryImpl with HttpRequestFailureMixin implements MoviesReposit
   @override
   Future<Either<HttpRequestFailure, Movie>> getMovie(String id) async {
     final result = await _service.getMovie(id);
+    if (result.data != null) {
+      return Right(result.data!);
+    }
+    return Left(
+      handleHttpRequestFailure(result),
+    );
+  }
+
+  @override
+  Future<Either<HttpRequestFailure, List<Media>>> getMovieRecommendations(String id) async {
+    final result = await _service.getMovieRecommendations(id);
     if (result.data != null) {
       return Right(result.data!);
     }

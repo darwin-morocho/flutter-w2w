@@ -1,5 +1,4 @@
 import '../../../core/http_client.dart';
-import '../../../domain/models/enums.dart';
 import '../../../domain/models/media/media.dart';
 import '../local/language_service.dart';
 
@@ -16,19 +15,7 @@ class TrendingService {
     return _httpClient.request(
       '/trending/all/week',
       language: _languageService.languageCode,
-      parser: (_, json) {
-        final list = <Media>[];
-        for (final e in json['results'] as List) {
-          final mediaTypes = MediaType.values.map((e) => e.name);
-          if (mediaTypes.contains(e['media_type'])) {
-            list.add(
-              Media.fromJson(e),
-            );
-          }
-        }
-
-        return list;
-      },
+      parser: (_, json) => Media.getMediaList(json['results']),
     );
   }
 }

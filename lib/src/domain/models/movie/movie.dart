@@ -22,7 +22,7 @@ class Movie with _$Movie {
     @JsonKey(name: 'original_title') required String originalTitle,
     required String overview,
     required double popularity,
-    @JsonKey(name: 'poster_path') required String? posterPath,
+    @JsonKey(name: 'poster_path') required String posterPath,
     @JsonKey(name: 'production_companies') required List<ProductionCompany> productionCompanies,
     @JsonKey(name: 'production_countries') required List<ProductionCountry> productionCountries,
     @JsonKey(name: 'release_date') required DateTime releaseDate,
@@ -39,7 +39,6 @@ class Movie with _$Movie {
 
   factory Movie.fromJson(Json json) => _$MovieFromJson(json);
 }
-
 
 @freezed
 class ProductionCompany with _$ProductionCompany {
