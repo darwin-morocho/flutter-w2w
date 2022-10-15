@@ -15,9 +15,18 @@ class FavoritesBloc extends StateNotifier<FavoritesState> {
   FavoritesLoaded get loadedState => state as FavoritesLoaded;
 
   Future<void> init() async {
-    state = const FavoritesLoaded(
-      movies: [],
-      tvShows: [],
+    if (state is! FavoritesLoading) {
+      state = const FavoritesLoading();
+    }
+
+    final result = await accountRepository.favorites;
+
+    state = result.when(
+      left: (_) => const FavoritesFailed(),
+      right: (response) => FavoritesLoaded(
+        movies: response.movies,
+        tvShows: response.tvShows,
+      ),
     );
   }
 
@@ -55,13 +64,19 @@ class FavoritesBloc extends StateNotifier<FavoritesState> {
       right: (_) {
         if (media.mediaType == MediaType.movie) {
           final movies = [...loadedState.movies];
-          movies.remove(media);
+          final index = movies.indexWhere(
+            (e) => e.id == media.id,
+          );
+          movies.removeAt(index);
           state = loadedState.copyWith(
             movies: movies,
           );
         } else {
           final tvShows = [...loadedState.tvShows];
-          tvShows.remove(media);
+          final index = tvShows.indexWhere(
+            (e) => e.id == media.id,
+          );
+          tvShows.removeAt(index);
           state = loadedState.copyWith(
             tvShows: tvShows,
           );

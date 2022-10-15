@@ -19,7 +19,7 @@ class AuthRepositoryImpl with HttpRequestFailureMixin implements AuthRepository 
   final AccountService _accountService;
 
   @override
-  Future<String?> get sessionId => _sessionService.id;
+  Future<Session?> get session => _sessionService.session;
 
   @override
   Future<Either<HttpRequestFailure, User>> signIn({
@@ -56,16 +56,20 @@ class AuthRepositoryImpl with HttpRequestFailureMixin implements AuthRepository 
       );
     }
 
-    await _sessionService.setId(sessionResult.data!);
-
-    final profileResult = await _accountService.getProfile();
+    final profileResult = await _accountService.getProfile(
+      sessionId: sessionResult.data!,
+    );
 
     if (sessionResult.failure != null) {
-      await _sessionService.deleteId();
       return Left(
         handleHttpRequestFailure(profileResult),
       );
     }
+
+    await _sessionService.saveSession(
+      sessionId: sessionResult.data!,
+      accountId: profileResult.data!.id,
+    );
 
     return Right(
       profileResult.data!,
@@ -74,6 +78,6 @@ class AuthRepositoryImpl with HttpRequestFailureMixin implements AuthRepository 
 
   @override
   Future<void> signOut() {
-    return _sessionService.deleteId();
+    return _sessionService.deleteSession();
   }
 }

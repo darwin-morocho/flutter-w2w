@@ -30,12 +30,13 @@ void registerRepositories({
     GetIt.I.get(),
   );
 
+  final languageService = LanguageService(defaultLanguageCode);
+
   final accountService = AccountService(
     GetIt.I.get(),
     sessionService,
+    languageService,
   );
-
-  final languageService = LanguageService(defaultLanguageCode);
 
   GetIt.I.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
@@ -46,12 +47,7 @@ void registerRepositories({
   );
 
   GetIt.I.registerLazySingleton<AccountRepository>(
-    () => AccountRepositoryImpl(
-      AccountService(
-        GetIt.I.get(),
-        sessionService,
-      ),
-    ),
+    () => AccountRepositoryImpl(accountService),
   );
 
   GetIt.I.registerLazySingleton<LanguageRepository>(

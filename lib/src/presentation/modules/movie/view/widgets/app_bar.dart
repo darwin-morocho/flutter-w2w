@@ -45,9 +45,10 @@ class MovieAppBar extends StatelessWidget {
     bool inFavorite = false;
 
     if (media != null) {
-      inFavorite = favoritesBloc.loadedState.movies.contains(
-        media,
+      final index = favoritesBloc.loadedState.movies.indexWhere(
+        (e) => e.id == media!.id,
       );
+      inFavorite = index != -1;
     }
 
     return Positioned(

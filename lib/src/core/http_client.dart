@@ -45,6 +45,11 @@ class HttpClient {
         },
       );
 
+      headers = {
+        'Content-Type': contentType,
+        ...headers,
+      };
+
       late final Response response;
       switch (method) {
         case 'GET':
@@ -90,10 +95,6 @@ class HttpClient {
       if (statusCode >= 200 && statusCode <= 300) {
         final decodedBytes = decodeBytes(response.body);
 
-        if (kDebugMode) {
-          print(uri);
-        }
-
         if (parser != null) {
           return HttpResult(
             statusCode: statusCode,
@@ -109,9 +110,11 @@ class HttpClient {
       throw Exception(response.body);
     } catch (e, s) {
       if (kDebugMode) {
+        print(uri);
         print(e);
         print(s);
         print(statusCode);
+        print(body);
       }
       return HttpResult(
         statusCode: statusCode,

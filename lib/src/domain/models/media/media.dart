@@ -28,14 +28,20 @@ class Media with _$Media {
 
   factory Media.fromJson(Json json) => _$MediaFromJson(json);
 
-  static List<Media> getMediaList(List data) {
+  static List<Media> getMediaList(
+    List data, {
+    MediaType? mediaType,
+  }) {
     final list = <Media>[];
-    final mediaTypes = MediaType.values.map((e) => e.name);
+
     for (final e in data) {
-      if (mediaTypes.contains(e['media_type']) &&
-          e['poster_path'] != null &&
-          e['backdrop_path'] != null) {
-        list.add(Media.fromJson(e));
+      if (e['poster_path'] != null && e['backdrop_path'] != null) {
+        list.add(
+          Media.fromJson({
+            ...e,
+            if (mediaType != null) 'media_type': mediaType.name,
+          }),
+        );
       }
     }
     return list;

@@ -27,8 +27,8 @@ class SessionBLoC extends ChangeNotifier {
   User? get user => _user;
 
   Future<void> init() async {
-    final sessionId = await authRepository.sessionId;
-    if (sessionId != null) {
+    final session = await authRepository.session;
+    if (session != null) {
       final result = await accountRepository.profile;
       result.whenOrNull(
         right: (user) {

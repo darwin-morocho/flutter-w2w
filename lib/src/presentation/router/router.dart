@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../my_app.dart';
 import '../global/blocs/app_configuration/app_configuration_bloc.dart';
 import '../global/widgets/main_scaffold.dart';
+import '../modules/favorites/view/favorites_view.dart';
 import '../modules/home/view/home_view.dart';
 import '../modules/movie/view/movie_view.dart';
 import '../modules/sign_in/view/sign_in_view.dart';
@@ -31,11 +32,19 @@ mixin RouterMixin on State<MyApp> {
     _router = GoRouter(
       routes: [
         ShellRoute(
-          builder: (_, state, child) => MainScaffold(state: state, child: child),
+          builder: (_, state, child) => MainScaffold(child: child),
           routes: [
             GoRoute(
               path: Routes.home,
               builder: (_, state) => const HomeView(),
+              redirect: authGuard,
+              routes: [
+                MovieView.route,
+              ],
+            ),
+            GoRoute(
+              path: Routes.favorites,
+              builder: (_, state) => const FavoritesView(),
               redirect: authGuard,
               routes: [
                 MovieView.route,
@@ -62,6 +71,8 @@ class Routes {
   Routes._();
 
   static const home = '/home';
+  static const favorites = '/favorites';
+  static const profile = '/profile';
   static const signIn = '/sign-in';
   static const offline = '/offline';
   static const serverError = '/server-error';

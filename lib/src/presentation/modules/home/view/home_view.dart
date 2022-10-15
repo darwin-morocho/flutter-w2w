@@ -12,13 +12,12 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
     final genres = Provider.of<AppConfigurationBLoC>(context, listen: false).genres;
 
     return ChangeNotifierProvider(
       create: (_) => HomeBLoC(
         const HomeState.loading(),
-        trendingRepository: Repositories.trending, 
+        trendingRepository: Repositories.trending,
       )..init(),
       child: Scaffold(
         body: SafeArea(
@@ -48,7 +47,6 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
               ),
-             
             ],
           ),
         ),

@@ -67,13 +67,18 @@ class _MovieRecomendationsState extends State<MovieRecomendations> {
                         left: index == 0 ? 20 : 0,
                       ),
                       child: InkWell(
-                        onTap: () => context.push(
-                          path.join(
-                            Routes.home,
-                            Routes.movie.builder(media.id),
-                          ),
-                          extra: media,
-                        ),
+                        onTap: () {
+                          final basePath =
+                              Uri.parse(GoRouter.of(context).location).pathSegments.first;
+
+                          context.push(
+                            path.join(
+                              '/$basePath',
+                              Routes.movie.builder(media.id),
+                            ),
+                            extra: media,
+                          );
+                        },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: SizedBox(
