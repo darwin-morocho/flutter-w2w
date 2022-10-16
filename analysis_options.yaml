@@ -25,6 +25,7 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    unused_element: false
     prefer_relative_imports: true
     invalid_annotation_target: false
     sort_constructors_first: true

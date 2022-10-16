@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../router/router.dart';
+import '../app_colors.dart';
 import '../app_icons.dart';
+import '../blocs/app_theme/bloc.dart';
 import '../blocs/favorites/bloc.dart';
 import '../mixins/after_first_layout.dart';
 
@@ -52,45 +54,61 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
     );
   }
 
+  void _onTap(index) {
+    if (_currentIndex == index && context.canPop()) {
+      context.pop();
+    } else {
+      final path = _paths[index];
+      context.go(path);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).viewPadding.bottom;
+    final darkMode = context.watch<AppThemeBloc>().darkMode;
+    final index = _currentIndex;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         top: false,
         child: widget.child,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        backgroundColor: const Color(0x0fffffff),
-        onTap: (index) {
-          if (_currentIndex == index && context.canPop()) {
-            context.pop();
-          } else {
-            final path = _paths[index];
-            context.go(path);
-          }
-        },
-        iconSize: 30,
-        currentIndex: _currentIndex,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(AppIcons.home),
-            activeIcon: Icon(AppIcons.home_filled),
-            label: 'home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(AppIcons.favorite),
-            activeIcon: Icon(AppIcons.favorite_filled),
-            label: 'favorite',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(AppIcons.person),
-            activeIcon: Icon(AppIcons.person_filled),
-            label: 'profile',
-          ),
-        ],
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.only(
+          bottom: bottomPadding * 0.5,
+        ),
+        color: darkMode ? AppColors.dark700 : const Color(0xfff0f0f0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            MaterialButton(
+              onPressed: () => _onTap(0),
+              child: Icon(
+                index == 0 ? AppIcons.home_filled : AppIcons.home,
+                color: darkMode ? Colors.white : AppColors.dark,
+                size: 28,
+              ),
+            ),
+            MaterialButton(
+              onPressed: () => _onTap(1),
+              child: Icon(
+                index == 1 ? AppIcons.favorite_filled : AppIcons.favorite,
+                color: darkMode ? Colors.white : AppColors.dark,
+                size: 28,
+              ),
+            ),
+            MaterialButton(
+              onPressed: () => _onTap(2),
+              child: Icon(
+                index == 2 ? AppIcons.person_filled : AppIcons.person,
+                color: darkMode ? Colors.white : AppColors.dark,
+                size: 28,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

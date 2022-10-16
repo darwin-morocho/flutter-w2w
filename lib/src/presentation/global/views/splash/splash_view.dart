@@ -9,22 +9,16 @@ class SplashView extends StatelessWidget {
       data: const MediaQueryData(),
       child: Directionality(
         textDirection: TextDirection.ltr,
-        child: DefaultTextStyle(
-          style: const TextStyle(
-            color: Colors.black,
-          ),
-          child: Material(
-            child: SizedBox(
-              width: double.infinity,
-              height: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 20),
-                  Text('LOADING...'),
-                ],
-              ),
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                CircularProgressIndicator(),
+              ],
             ),
           ),
         ),

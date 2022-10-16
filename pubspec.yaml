@@ -51,6 +51,7 @@ dependencies:
   slang: ^3.1.0
   extended_image: ^6.3.1
   path: ^1.8.2
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

@@ -18,8 +18,9 @@ class FavoritesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final genres = context.read<AppConfigurationBLoC>().genres;
+
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).scaffoldBackgroundColor,
       width: double.infinity,
       child: SafeArea(
         bottom: false,
@@ -30,7 +31,6 @@ class FavoritesView extends StatelessWidget {
               loaded: (state) => Column(
                 children: [
                   const TabBar(
-                    labelColor: Colors.black,
                     tabs: [
                       Tab(
                         text: 'Movies',
@@ -67,7 +67,7 @@ class FavoritesView extends StatelessWidget {
   }
 }
 
-class _MediaList extends StatelessWidget {
+class _MediaList extends StatefulWidget {
   const _MediaList({
     required this.items,
     required this.genres,
@@ -76,10 +76,20 @@ class _MediaList extends StatelessWidget {
   final Map<int, Genre> genres;
 
   @override
+  State<_MediaList> createState() => _MediaListState();
+}
+
+class _MediaListState extends State<_MediaList> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
+    final darMode = Theme.of(context).brightness == Brightness.light;
+
     return ListView.builder(
       itemBuilder: (_, index) {
-        final media = items[index];
+        final media = widget.items[index];
+
         return Padding(
           padding: const EdgeInsets.all(8.0).copyWith(
             top: index == 0 ? 20 : 4,
@@ -87,20 +97,17 @@ class _MediaList extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Material(
-              color: const Color(0xfff2f2f2),
+              color: Theme.of(context).cardColor,
               child: InkWell(
                 onTap: () {
-                  if (media.mediaType == MediaType.movie) {
-                    context.push(
-                      join(
-                        Routes.favorites,
-                        Routes.movie.builder(
-                          media.id,
-                        ),
-                      ),
-                      extra: media,
-                    );
-                  }
+                  final isMovie = media.mediaType == MediaType.movie;
+                  context.push(
+                    join(
+                      Routes.favorites,
+                      isMovie ? Routes.movie.builder(media.id) : Routes.tv.builder(media.id),
+                    ),
+                    extra: media,
+                  );
                 },
                 child: SizedBox(
                   height: 120,
@@ -133,11 +140,11 @@ class _MediaList extends StatelessWidget {
                               runSpacing: 3,
                               children: media.genreIds.map(
                                 (id) {
-                                  final genre = genres[id]!;
+                                  final genre = widget.genres[id]!;
                                   return Container(
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                        color: Colors.black38,
+                                        color: darMode ? Colors.black38 : Colors.white38,
                                       ),
                                       borderRadius: BorderRadius.circular(2),
                                     ),
@@ -176,7 +183,10 @@ class _MediaList extends StatelessWidget {
           ),
         );
       },
-      itemCount: items.length,
+      itemCount: widget.items.length,
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

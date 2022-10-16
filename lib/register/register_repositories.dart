@@ -5,6 +5,7 @@ import '../src/data/repositories_implementation/auth_repository_impl.dart';
 import '../src/data/repositories_implementation/genres_repository_impl.dart';
 import '../src/data/repositories_implementation/language_repository_impl.dart';
 import '../src/data/repositories_implementation/movies_repository_impl.dart';
+import '../src/data/repositories_implementation/preferences_repository_impl.dart';
 import '../src/data/repositories_implementation/trending_repository_impl.dart';
 import '../src/data/services/local/language_service.dart';
 import '../src/data/services/local/session.dart';
@@ -18,6 +19,7 @@ import '../src/domain/repositories/auth_repository.dart';
 import '../src/domain/repositories/genres_repository.dart';
 import '../src/domain/repositories/language_repository.dart';
 import '../src/domain/repositories/movies_repository.dart';
+import '../src/domain/repositories/preferences_repository.dart';
 import '../src/domain/repositories/trending_repository.dart';
 
 void registerRepositories({
@@ -82,6 +84,12 @@ void registerRepositories({
       ),
     ),
   );
+
+  GetIt.I.registerLazySingleton<PreferencesRepository>(
+    () => PreferencesRepositoryImpl(
+      GetIt.I.get(),
+    ),
+  );
 }
 
 class Repositories {
@@ -93,4 +101,5 @@ class Repositories {
   static GenresRepository get genres => GetIt.I.get();
   static TrendingRepository get trending => GetIt.I.get();
   static MoviesRepository get movies => GetIt.I.get();
+  static PreferencesRepository get preferences => GetIt.I.get();
 }

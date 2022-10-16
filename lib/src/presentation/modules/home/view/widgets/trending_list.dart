@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:path/path.dart';
 
 import '../../../../../core/env.dart';
+import '../../../../../domain/models/enums.dart';
 import '../../../../../domain/models/media/media.dart';
 import '../../../../router/router.dart';
 
@@ -89,13 +90,19 @@ class _TrendingListState extends State<TrendingList> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () => context.push(
-                                join(
-                                  Routes.home,
-                                  Routes.movie.builder(item.id),
-                                ),
-                                extra: item,
-                              ),
+                              onTap: () {
+                                final isMovie = item.mediaType == MediaType.movie;
+
+                                context.push(
+                                  join(
+                                    Routes.home,
+                                    isMovie
+                                        ? Routes.movie.builder(item.id)
+                                        : Routes.tv.builder(item.id),
+                                  ),
+                                  extra: item,
+                                );
+                              },
                             ),
                           ),
                         ),

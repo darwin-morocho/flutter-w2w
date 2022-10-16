@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/env.dart';
 import '../../../../../domain/models/movie/movie.dart';
+import '../../../../global/app_colors.dart';
 
 class MovieBanner extends StatelessWidget {
   const MovieBanner({
@@ -15,6 +16,20 @@ class MovieBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const backgroundColor = AppColors.dark;
+
+    final decoration = BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Colors.transparent,
+          backgroundColor.withOpacity(0.5),
+          backgroundColor,
+        ],
+      ),
+    );
+
     return Stack(
       children: [
         AspectRatio(
@@ -26,60 +41,56 @@ class MovieBanner extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        if (movie != null)
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black,
-                  ],
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    movie!.title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: -2,
+          child: movie != null
+              ? Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: decoration,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        movie!.title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Wrap(
+                        spacing: 10,
+                        children: movie!.genres
+                            .map(
+                              (e) => Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.white60,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.all(4),
+                                child: Text(
+                                  e.name,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      )
+                    ],
                   ),
-                  const SizedBox(height: 5),
-                  Wrap(
-                    spacing: 10,
-                    children: movie!.genres
-                        .map(
-                          (e) => Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.white60,
-                              ),
-                            ),
-                            padding: const EdgeInsets.all(4),
-                            child: Text(
-                              e.name,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 11,
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  )
-                ],
-              ),
-            ),
-          ),
+                )
+              : Container(
+                  height: 100,
+                  width: double.infinity,
+                  decoration: decoration,
+                ),
+        ),
       ],
     );
   }

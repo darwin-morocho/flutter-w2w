@@ -7,6 +7,7 @@ import 'register/register_repositories.dart';
 import 'register/register_third_dependencies.dart';
 import 'src/my_app.dart';
 import 'src/presentation/global/blocs/app_configuration/app_configuration_bloc.dart';
+import 'src/presentation/global/blocs/app_theme/bloc.dart';
 import 'src/presentation/global/blocs/favorites/bloc.dart';
 import 'src/presentation/global/blocs/favorites/state/state.dart';
 import 'src/presentation/global/blocs/session/session_bloc.dart';
@@ -40,6 +41,11 @@ void main() async {
           create: (_) => FavoritesBloc(
             const FavoritesMustBeInitialized(),
             accountRepository: Repositories.account,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AppThemeBloc(
+            Repositories.preferences,
           ),
         ),
       ],

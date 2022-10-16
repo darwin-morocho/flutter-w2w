@@ -3,12 +3,14 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'presentation/global/app_colors.dart';
 import 'presentation/global/blocs/app_configuration/app_configuration_bloc.dart';
+import 'presentation/global/blocs/app_theme/bloc.dart';
 import 'presentation/global/blocs/session/session_bloc.dart';
 import 'presentation/global/mixins/after_first_layout.dart';
+import 'presentation/global/theme.dart';
 import 'presentation/global/views/splash/splash_view.dart';
 import 'presentation/router/router.dart';
 
@@ -35,8 +37,12 @@ class _MyAppState extends State<MyApp> with RouterMixin, AfterFirstLayout {
     );
     final AppConfigurationBLoC appConfiguration = context.watch();
 
+    final darkMode = context.select<AppThemeBloc, bool>(
+      (bloc) => bloc.darkMode,
+    );
+
     return Container(
-      color: Colors.white,
+      color: darkMode ? AppColors.dark700 : Colors.white,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 1000),
         transitionBuilder: (child, animation) {
@@ -61,11 +67,7 @@ class _MyAppState extends State<MyApp> with RouterMixin, AfterFirstLayout {
                 child: MaterialApp.router(
                   title: 'w2w - What To Watch',
                   debugShowCheckedModeBanner: false,
-                  theme: ThemeData(
-                    primarySwatch: Colors.blue,
-                    useMaterial3: true,
-                    textTheme: GoogleFonts.nunitoSansTextTheme(),
-                  ),
+                  theme: getTheme(darkMode),
                   routerConfig: router,
                 ),
               )

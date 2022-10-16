@@ -41,11 +41,11 @@ class FavoritesBloc extends StateNotifier<FavoritesState> {
       right: (_) {
         if (media.mediaType == MediaType.movie) {
           state = loadedState.copyWith(
-            movies: [...loadedState.movies, media],
+            movies: [media, ...loadedState.movies],
           );
         } else {
           state = loadedState.copyWith(
-            tvShows: [...loadedState.tvShows, media],
+            tvShows: [media, ...loadedState.tvShows],
           );
         }
         return true;

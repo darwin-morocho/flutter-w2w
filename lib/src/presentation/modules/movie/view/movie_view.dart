@@ -35,7 +35,7 @@ class MovieView extends StatelessWidget {
         final state = bloc.state;
 
         return Container(
-          color: Colors.white,
+          color: Theme.of(context).backgroundColor,
           width: double.infinity,
           child: Stack(
             children: [

@@ -8,7 +8,9 @@ import '../global/widgets/main_scaffold.dart';
 import '../modules/favorites/view/favorites_view.dart';
 import '../modules/home/view/home_view.dart';
 import '../modules/movie/view/movie_view.dart';
+import '../modules/profile/view/profile_view.dart';
 import '../modules/sign_in/view/sign_in_view.dart';
+import '../modules/tv_show/view/tv_show_view.dart';
 import 'auth_guard.dart';
 
 mixin RouterMixin on State<MyApp> {
@@ -40,6 +42,7 @@ mixin RouterMixin on State<MyApp> {
               redirect: authGuard,
               routes: [
                 MovieView.route,
+                TvShowView.route,
               ],
             ),
             GoRoute(
@@ -48,7 +51,13 @@ mixin RouterMixin on State<MyApp> {
               redirect: authGuard,
               routes: [
                 MovieView.route,
+                TvShowView.route,
               ],
+            ),
+            GoRoute(
+              path: Routes.profile,
+              builder: (_, state) => const ProfileView(),
+              redirect: authGuard,
             ),
           ],
         ),
@@ -80,6 +89,11 @@ class Routes {
   static final movie = _ComposedRoute(
     'movie/:id',
     (int id) => 'movie/$id',
+  );
+
+  static final tv = _ComposedRoute(
+    'tv/:id',
+    (int id) => 'tv/$id',
   );
 }
 
