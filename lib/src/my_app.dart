@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> with RouterMixin, AfterFirstLayout {
     return Container(
       color: darkMode ? AppColors.dark700 : Colors.white,
       child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 1000),
+        duration: const Duration(milliseconds: 500),
         transitionBuilder: (child, animation) {
           return AnimatedBuilder(
             animation: animation,

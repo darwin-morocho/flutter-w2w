@@ -74,6 +74,7 @@ ThemeData getTheme(bool darkMode) {
         AppColors.dark700.withOpacity(0.3),
       ),
     ),
+    brightness: Brightness.light,
     appBarTheme: const AppBarTheme(
       backgroundColor: Color(0xfff2f2f2),
       iconTheme: IconThemeData(

@@ -67,7 +67,6 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).viewPadding.bottom;
     final darkMode = context.watch<AppThemeBloc>().darkMode;
-    final index = _currentIndex;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -83,31 +82,61 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            MaterialButton(
-              onPressed: () => _onTap(0),
-              child: Icon(
-                index == 0 ? AppIcons.home_filled : AppIcons.home,
-                color: darkMode ? Colors.white : AppColors.dark,
-                size: 28,
-              ),
+            _TabButton(
+              selectedIcon: AppIcons.home_filled,
+              unselectedIcon: AppIcons.home,
+              index: 0,
+              onTap: _onTap,
             ),
-            MaterialButton(
-              onPressed: () => _onTap(1),
-              child: Icon(
-                index == 1 ? AppIcons.favorite_filled : AppIcons.favorite,
-                color: darkMode ? Colors.white : AppColors.dark,
-                size: 28,
-              ),
+            _TabButton(
+              selectedIcon: AppIcons.favorite_filled,
+              unselectedIcon: AppIcons.favorite,
+              index: 1,
+              onTap: _onTap,
             ),
-            MaterialButton(
-              onPressed: () => _onTap(2),
-              child: Icon(
-                index == 2 ? AppIcons.person_filled : AppIcons.person,
-                color: darkMode ? Colors.white : AppColors.dark,
-                size: 28,
-              ),
+            _TabButton(
+              selectedIcon: AppIcons.person_filled,
+              unselectedIcon: AppIcons.person,
+              index: 2,
+              onTap: _onTap,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TabButton extends StatelessWidget {
+  const _TabButton({
+    required this.selectedIcon,
+    required this.unselectedIcon,
+    required this.index,
+    required this.onTap,
+  });
+  final int index;
+  final void Function(int index) onTap;
+  final IconData selectedIcon;
+  final IconData unselectedIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    final darkMode = Theme.of(context).brightness == Brightness.dark;
+    final currentIndex = context.findAncestorStateOfType<_MainScaffoldState>()!._currentIndex;
+    return Expanded(
+      child: Material(
+        elevation: 0,
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => onTap(index),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Icon(
+              index == currentIndex ? selectedIcon : unselectedIcon,
+              color: darkMode ? Colors.white : AppColors.dark,
+              size: 34,
+            ),
+          ),
         ),
       ),
     );
