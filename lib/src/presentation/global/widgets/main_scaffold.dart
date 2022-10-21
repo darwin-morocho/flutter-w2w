@@ -87,18 +87,18 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _TabButton(
-              selectedIcon: AppIcons.home,
-              filledIcon: AppIcons.home_filled,
+              selectedIcon: AppIcons.home_filled,
+              unselectedIcon: AppIcons.home,
               index: 0,
             ),
             _TabButton(
-              selectedIcon: AppIcons.favorite,
-              filledIcon: AppIcons.favorite_filled,
+              selectedIcon: AppIcons.favorite_filled,
+              unselectedIcon: AppIcons.favorite,
               index: 1,
             ),
             _TabButton(
-              selectedIcon: AppIcons.person,
-              filledIcon: AppIcons.person_filled,
+              selectedIcon: AppIcons.person_filled,
+              unselectedIcon: AppIcons.person,
               index: 2,
             ),
           ],
@@ -112,29 +112,42 @@ class _TabButton extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
   _TabButton({
     required this.selectedIcon,
-    required this.filledIcon,
+    required this.unselectedIcon,
     required this.index,
   });
-  final IconData selectedIcon, filledIcon;
   final int index;
+
+  final IconData selectedIcon;
+  final IconData unselectedIcon;
 
   @override
   Widget build(BuildContext context) {
-    final scaffoldState = context.findAncestorStateOfType<_MainScaffoldState>()!;
-    final darkMode = context.read<AppThemeBloc>().darkMode;
-    final active = scaffoldState._currentIndex == index;
+    final darkMode = Theme.of(context).brightness == Brightness.dark;
+    final state = context.findAncestorStateOfType<_MainScaffoldState>()!;
+    final currentIndex = state._currentIndex;
+
+    final active = index == currentIndex;
 
     return Expanded(
-      child: MaterialButton(
-        onPressed: () => scaffoldState._onTap(index),
-        child: Icon(
-          active ? filledIcon : selectedIcon,
-          color: active
-              ? AppColors.accent
-              : darkMode
-                  ? Colors.white38
-                  : AppColors.dark,
-          size: 28,
+      child: Material(
+        elevation: 0,
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => state._onTap(index),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Icon(
+              active ? selectedIcon : unselectedIcon,
+              color: active
+                  ? AppColors.accent
+                  : darkMode
+                      ? Colors.white30
+                      : AppColors.dark.withOpacity(
+                          0.3,
+                        ),
+              size: 34,
+            ),
+          ),
         ),
       ),
     );

@@ -4,17 +4,31 @@ import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
 ThemeData getTheme(bool darkMode) {
-  final baseTheme = darkMode
-      ? ThemeData.dark(
-          useMaterial3: true,
-        )
-      : ThemeData.light(useMaterial3: true);
+  final baseTheme = ThemeData(
+    useMaterial3: true,
+    colorScheme: const ColorScheme.dark(
+      secondary: AppColors.accent,
+    ),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: AppColors.accent,
+    ),
+    indicatorColor: AppColors.accent,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(
+          AppColors.accent,
+        ),
+        textStyle: MaterialStateProperty.all(
+          const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+    ),
+  );
 
   if (darkMode) {
     return baseTheme.copyWith(
-      colorScheme: const ColorScheme.dark(
-        secondary: AppColors.accent,
-      ),
       textTheme: GoogleFonts.nunitoSansTextTheme().copyWith(
         bodyText1: const TextStyle(color: Colors.white),
         bodyText2: const TextStyle(color: Colors.white),
@@ -42,10 +56,6 @@ ThemeData getTheme(bool darkMode) {
       tabBarTheme: const TabBarTheme(
         labelColor: Colors.white,
       ),
-      indicatorColor: AppColors.accent,
-      progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: AppColors.accent,
-      ),
       chipTheme: const ChipThemeData(
         backgroundColor: AppColors.dark700,
       ),
@@ -53,22 +63,17 @@ ThemeData getTheme(bool darkMode) {
   }
 
   return baseTheme.copyWith(
-    colorScheme: const ColorScheme.dark(
-      secondary: AppColors.accent,
-    ),
     textTheme: GoogleFonts.nunitoSansTextTheme().copyWith(
       bodyText1: const TextStyle(color: AppColors.dark),
       bodyText2: const TextStyle(color: AppColors.dark),
     ),
     backgroundColor: Colors.white,
+    scaffoldBackgroundColor: Colors.white,
     tabBarTheme: const TabBarTheme(
       labelColor: AppColors.dark,
     ),
     cardColor: const Color(0xfff2f2f2),
     indicatorColor: AppColors.accent,
-    progressIndicatorTheme: const ProgressIndicatorThemeData(
-      color: AppColors.accent,
-    ),
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.all(
         AppColors.dark700,
@@ -76,6 +81,10 @@ ThemeData getTheme(bool darkMode) {
       trackColor: MaterialStateProperty.all(
         AppColors.dark700.withOpacity(0.3),
       ),
+    ),
+    brightness: Brightness.light,
+    chipTheme: const ChipThemeData(
+      backgroundColor: Color(0xfff0f0f0),
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Color(0xfff2f2f2),
