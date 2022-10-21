@@ -12,7 +12,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final genres = Provider.of<AppConfigurationBLoC>(context, listen: false).genres;
+    final genres = Provider.of<AppConfigurationBLoC>(context, listen: false).genres.values;
 
     return ChangeNotifierProvider(
       create: (_) => HomeBLoC(
@@ -26,18 +26,28 @@ class HomeView extends StatelessWidget {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: genres.values
-                      .map(
-                        (e) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Chip(
-                            label: Text(e.name),
+                  children: List.generate(
+                    genres.length,
+                    (index) {
+                      final genre = genres.elementAt(index);
+                      return Padding(
+                        padding: const EdgeInsets.all(4).copyWith(
+                          left: index == 0 ? 20 : 4,
+                        ),
+                        child: Chip(
+                          label: Text(
+                            genre.name,
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
                           ),
                         ),
-                      )
-                      .toList(),
+                      );
+                    },
+                  ),
                 ),
               ),
+              const SizedBox(height: 15),
               Consumer<HomeBLoC>(
                 builder: (_, bloc, __) => bloc.state.map(
                   loading: (_) => const CircularProgressIndicator(),

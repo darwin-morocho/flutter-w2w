@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../domain/models/media/media.dart';
-import '../../../router/auth_guard.dart';
 import '../../../router/router.dart';
 
 class TvShowView extends StatelessWidget {
@@ -39,7 +38,6 @@ class TvShowView extends StatelessWidget {
         }
         return TvShowView(id: id, media: media);
       },
-      redirect: authGuard,
     );
   }
 }

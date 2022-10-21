@@ -17,7 +17,7 @@ Future<String?> authGuard(BuildContext context, GoRouterState state) async {
   final SessionBLoC session = context.read();
 
   if (session.user == null) {
-    Uri uri = Uri.parse(Routes.signIn);
+    Uri uri = Uri.parse(Routes.signIn.path);
     uri = uri.replace(
       queryParameters: {
         'next': Uri.parse(state.location).toString(),

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../register/register_repositories.dart';
 import '../../../global/app_icons.dart';
 import '../../../global/blocs/app_theme/bloc.dart';
+import '../../../global/blocs/favorites/bloc.dart';
 import '../../../global/blocs/session/session_bloc.dart';
+import '../../../router/router.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -23,7 +27,13 @@ class ProfileView extends StatelessWidget {
             AppBar(
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    FavoritesBloc favoritesBloc = context.read();
+                    await Repositories.auth.signOut();
+                    favoritesBloc.reset();
+                    sessionBLoC.setUser(null, notify: false);
+                    context.go(Routes.home);
+                  },
                   icon: const Icon(
                     AppIcons.logout,
                   ),

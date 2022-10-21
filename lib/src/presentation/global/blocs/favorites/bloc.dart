@@ -85,4 +85,8 @@ class FavoritesBloc extends StateNotifier<FavoritesState> {
       },
     );
   }
+
+  void reset() {
+    state = const FavoritesMustBeInitialized();
+  }
 }

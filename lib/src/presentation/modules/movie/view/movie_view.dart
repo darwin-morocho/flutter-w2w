@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../../../../register/register_repositories.dart';
 import '../../../../domain/models/media/media.dart';
 import '../../../global/widgets/scroll_view.dart';
-import '../../../router/auth_guard.dart';
 import '../../../router/router.dart';
 import '../bloc/movie_bloc.dart';
 import '../bloc/state/state.dart';
@@ -96,6 +95,7 @@ class MovieView extends StatelessWidget {
   static GoRoute get route {
     return GoRoute(
       path: Routes.movie.path,
+      parentNavigatorKey: shellNavigatorKey,
       builder: (_, state) {
         final id = state.params['id']!;
         final extra = state.extra;
@@ -105,7 +105,6 @@ class MovieView extends StatelessWidget {
         }
         return MovieView(id: id, media: media);
       },
-      redirect: authGuard,
     );
   }
 }

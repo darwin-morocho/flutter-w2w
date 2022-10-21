@@ -10,6 +10,7 @@ import '../../../../domain/models/genre/genre.dart';
 import '../../../../domain/models/media/media.dart';
 import '../../../global/blocs/app_configuration/app_configuration_bloc.dart';
 import '../../../global/blocs/favorites/bloc.dart';
+import '../../../global/blocs/session/session_bloc.dart';
 import '../../../router/router.dart';
 
 class FavoritesView extends StatelessWidget {
@@ -17,10 +18,37 @@ class FavoritesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final SessionBLoC sessionBLoC = context.read();
+    final backgroundColor = Theme.of(context).scaffoldBackgroundColor;
+
+    if (sessionBLoC.user == null) {
+      return Container(
+        color: backgroundColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'To show this section, you need to sign in',
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => context.go(
+                Routes.signIn.builder(
+                  GoRouter.of(context),
+                ),
+              ),
+              child: const Text('Sign In'),
+            ),
+          ],
+        ),
+      );
+    }
+
     final genres = context.read<AppConfigurationBLoC>().genres;
 
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+      color: backgroundColor,
       width: double.infinity,
       child: SafeArea(
         bottom: false,

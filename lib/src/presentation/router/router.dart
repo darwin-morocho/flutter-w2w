@@ -13,6 +13,9 @@ import '../modules/sign_in/view/sign_in_view.dart';
 import '../modules/tv_show/view/tv_show_view.dart';
 import 'auth_guard.dart';
 
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+final shellNavigatorKey = GlobalKey<NavigatorState>();
+
 mixin RouterMixin on State<MyApp> {
   GoRouter? _router;
 
@@ -32,14 +35,15 @@ mixin RouterMixin on State<MyApp> {
       right: (_) => Routes.home,
     );
     _router = GoRouter(
+      navigatorKey: rootNavigatorKey,
       routes: [
         ShellRoute(
+          navigatorKey: shellNavigatorKey,
           builder: (_, state, child) => MainScaffold(child: child),
           routes: [
             GoRoute(
               path: Routes.home,
               builder: (_, state) => const HomeView(),
-              redirect: authGuard,
               routes: [
                 MovieView.route,
                 TvShowView.route,
@@ -48,7 +52,6 @@ mixin RouterMixin on State<MyApp> {
             GoRoute(
               path: Routes.favorites,
               builder: (_, state) => const FavoritesView(),
-              redirect: authGuard,
               routes: [
                 MovieView.route,
                 TvShowView.route,
@@ -62,7 +65,7 @@ mixin RouterMixin on State<MyApp> {
           ],
         ),
         GoRoute(
-          path: Routes.signIn,
+          path: Routes.signIn.path,
           builder: (_, state) => SignInView(
             nextLocation: state.queryParams['next'],
           ),
@@ -82,13 +85,19 @@ class Routes {
   static const home = '/home';
   static const favorites = '/favorites';
   static const profile = '/profile';
-  static const signIn = '/sign-in';
   static const offline = '/offline';
   static const serverError = '/server-error';
 
   static final movie = _ComposedRoute(
     'movie/:id',
     (int id) => 'movie/$id',
+  );
+
+  static final signIn = _ComposedRoute(
+    '/sign-in',
+    (GoRouter router) => Uri.parse(
+      '/sign-in?next=${Uri.encodeFull(router.location)}',
+    ).toString(),
   );
 
   static final tv = _ComposedRoute(

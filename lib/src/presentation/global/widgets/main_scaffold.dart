@@ -9,6 +9,7 @@ import '../app_colors.dart';
 import '../app_icons.dart';
 import '../blocs/app_theme/bloc.dart';
 import '../blocs/favorites/bloc.dart';
+import '../blocs/session/session_bloc.dart';
 import '../mixins/after_first_layout.dart';
 
 const _paths = [
@@ -46,12 +47,15 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
 
   @override
   FutureOr<void> onAfterFirstLayout() {
-    final FavoritesBloc favoritesBloc = context.read();
-    favoritesBloc.state.whenOrNull(
-      mustBeInitialized: () {
-        favoritesBloc.init();
-      },
-    );
+    final SessionBLoC sessionBLoC = context.read();
+    if (sessionBLoC.user != null) {
+      final FavoritesBloc favoritesBloc = context.read();
+      favoritesBloc.state.whenOrNull(
+        mustBeInitialized: () {
+          favoritesBloc.init();
+        },
+      );
+    }
   }
 
   void _onTap(index) {
@@ -67,7 +71,6 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).viewPadding.bottom;
     final darkMode = context.watch<AppThemeBloc>().darkMode;
-    final index = _currentIndex;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -83,31 +86,55 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            MaterialButton(
-              onPressed: () => _onTap(0),
-              child: Icon(
-                index == 0 ? AppIcons.home_filled : AppIcons.home,
-                color: darkMode ? Colors.white : AppColors.dark,
-                size: 28,
-              ),
+            _TabButton(
+              selectedIcon: AppIcons.home,
+              filledIcon: AppIcons.home_filled,
+              index: 0,
             ),
-            MaterialButton(
-              onPressed: () => _onTap(1),
-              child: Icon(
-                index == 1 ? AppIcons.favorite_filled : AppIcons.favorite,
-                color: darkMode ? Colors.white : AppColors.dark,
-                size: 28,
-              ),
+            _TabButton(
+              selectedIcon: AppIcons.favorite,
+              filledIcon: AppIcons.favorite_filled,
+              index: 1,
             ),
-            MaterialButton(
-              onPressed: () => _onTap(2),
-              child: Icon(
-                index == 2 ? AppIcons.person_filled : AppIcons.person,
-                color: darkMode ? Colors.white : AppColors.dark,
-                size: 28,
-              ),
+            _TabButton(
+              selectedIcon: AppIcons.person,
+              filledIcon: AppIcons.person_filled,
+              index: 2,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TabButton extends StatelessWidget {
+  // ignore: prefer_const_constructors_in_immutables
+  _TabButton({
+    required this.selectedIcon,
+    required this.filledIcon,
+    required this.index,
+  });
+  final IconData selectedIcon, filledIcon;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final scaffoldState = context.findAncestorStateOfType<_MainScaffoldState>()!;
+    final darkMode = context.read<AppThemeBloc>().darkMode;
+    final active = scaffoldState._currentIndex == index;
+
+    return Expanded(
+      child: MaterialButton(
+        onPressed: () => scaffoldState._onTap(index),
+        child: Icon(
+          active ? filledIcon : selectedIcon,
+          color: active
+              ? AppColors.accent
+              : darkMode
+                  ? Colors.white38
+                  : AppColors.dark,
+          size: 28,
         ),
       ),
     );

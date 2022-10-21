@@ -13,7 +13,7 @@ ThemeData getTheme(bool darkMode) {
   if (darkMode) {
     return baseTheme.copyWith(
       colorScheme: const ColorScheme.dark(
-        secondary: AppColors.secondary,
+        secondary: AppColors.accent,
       ),
       textTheme: GoogleFonts.nunitoSansTextTheme().copyWith(
         bodyText1: const TextStyle(color: Colors.white),
@@ -30,10 +30,10 @@ ThemeData getTheme(bool darkMode) {
       ),
       switchTheme: SwitchThemeData(
         thumbColor: MaterialStateProperty.all(
-          const Color(0xff2196f3),
+          AppColors.accent,
         ),
         trackColor: MaterialStateProperty.all(
-          const Color(0xff90caf9),
+          AppColors.accent.withOpacity(0.4),
         ),
       ),
       listTileTheme: const ListTileThemeData(
@@ -42,16 +42,19 @@ ThemeData getTheme(bool darkMode) {
       tabBarTheme: const TabBarTheme(
         labelColor: Colors.white,
       ),
-      indicatorColor: AppColors.secondary,
+      indicatorColor: AppColors.accent,
       progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: AppColors.secondary,
+        color: AppColors.accent,
+      ),
+      chipTheme: const ChipThemeData(
+        backgroundColor: AppColors.dark700,
       ),
     );
   }
 
   return baseTheme.copyWith(
     colorScheme: const ColorScheme.dark(
-      secondary: AppColors.secondary,
+      secondary: AppColors.accent,
     ),
     textTheme: GoogleFonts.nunitoSansTextTheme().copyWith(
       bodyText1: const TextStyle(color: AppColors.dark),
@@ -62,9 +65,9 @@ ThemeData getTheme(bool darkMode) {
       labelColor: AppColors.dark,
     ),
     cardColor: const Color(0xfff2f2f2),
-    indicatorColor: AppColors.secondary,
+    indicatorColor: AppColors.accent,
     progressIndicatorTheme: const ProgressIndicatorThemeData(
-      color: AppColors.secondary,
+      color: AppColors.accent,
     ),
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.all(

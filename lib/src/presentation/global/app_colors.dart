@@ -1,9 +1,9 @@
-import 'package:flutter/widgets.dart' show Color;
+import 'package:flutter/material.dart';
 
 class AppColors {
   AppColors._();
 
-  static const dark = Color(0xff102027);
-  static const dark700 = Color(0xff1c313a);
-  static const secondary = Color(0xff1976d2);
+  static const dark = Color(0xff191A2C);
+  static const dark700 = Color(0xff29293E);
+  static const accent = Colors.pink;
 }
