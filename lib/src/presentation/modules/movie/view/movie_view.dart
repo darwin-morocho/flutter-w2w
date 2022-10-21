@@ -10,6 +10,7 @@ import '../bloc/movie_bloc.dart';
 import '../bloc/state/state.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/banner.dart';
+import 'widgets/credits.dart';
 import 'widgets/loader.dart';
 import 'widgets/recommendations.dart';
 
@@ -55,6 +56,7 @@ class MovieView extends StatelessWidget {
                           path: state.movie.backdropPath,
                           movie: state.movie,
                         ),
+                        MovieCredits(movieId: state.movie.id),
                         Padding(
                           padding: const EdgeInsets.all(20).copyWith(
                             bottom: 0,
@@ -78,6 +80,7 @@ class MovieView extends StatelessWidget {
                           ),
                         ),
                         const MovieRecomendations(),
+                        const SizedBox(height: 100),
                       ],
                     ),
                     failed: (_) => Container(),

@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../../../../../gen/assets.gen.dart';
+import '../../../../../generated/assets.gen.dart';
 import '../../app_colors.dart';
 
 class SplashView extends StatelessWidget {

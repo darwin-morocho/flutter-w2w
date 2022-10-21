@@ -7,21 +7,16 @@ ThemeData getTheme(bool darkMode) {
   final baseTheme = ThemeData(
     useMaterial3: true,
     colorScheme: const ColorScheme.dark(
-      secondary: AppColors.accent,
+      secondary: AppColors.cyan,
     ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
-      color: AppColors.accent,
+      color: AppColors.cyan,
     ),
-    indicatorColor: AppColors.accent,
+    indicatorColor: AppColors.cyan,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
-          AppColors.accent,
-        ),
-        textStyle: MaterialStateProperty.all(
-          const TextStyle(
-            color: Colors.white,
-          ),
+          AppColors.cyan,
         ),
       ),
     ),
@@ -29,6 +24,7 @@ ThemeData getTheme(bool darkMode) {
 
   if (darkMode) {
     return baseTheme.copyWith(
+      brightness: Brightness.dark,
       textTheme: GoogleFonts.nunitoSansTextTheme().copyWith(
         bodyText1: const TextStyle(color: Colors.white),
         bodyText2: const TextStyle(color: Colors.white),
@@ -44,10 +40,10 @@ ThemeData getTheme(bool darkMode) {
       ),
       switchTheme: SwitchThemeData(
         thumbColor: MaterialStateProperty.all(
-          AppColors.accent,
+          AppColors.cyan,
         ),
         trackColor: MaterialStateProperty.all(
-          AppColors.accent.withOpacity(0.4),
+          AppColors.cyan.withOpacity(0.4),
         ),
       ),
       listTileTheme: const ListTileThemeData(
@@ -63,6 +59,7 @@ ThemeData getTheme(bool darkMode) {
   }
 
   return baseTheme.copyWith(
+    brightness: Brightness.light,
     textTheme: GoogleFonts.nunitoSansTextTheme().copyWith(
       bodyText1: const TextStyle(color: AppColors.dark),
       bodyText2: const TextStyle(color: AppColors.dark),
@@ -73,7 +70,7 @@ ThemeData getTheme(bool darkMode) {
       labelColor: AppColors.dark,
     ),
     cardColor: const Color(0xfff2f2f2),
-    indicatorColor: AppColors.accent,
+    indicatorColor: AppColors.cyan,
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.all(
         AppColors.dark700,
@@ -82,7 +79,6 @@ ThemeData getTheme(bool darkMode) {
         AppColors.dark700.withOpacity(0.3),
       ),
     ),
-    brightness: Brightness.light,
     chipTheme: const ChipThemeData(
       backgroundColor: Color(0xfff0f0f0),
     ),

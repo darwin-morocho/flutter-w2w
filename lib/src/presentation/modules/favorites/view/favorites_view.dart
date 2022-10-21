@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../generated/assets.gen.dart';
 import '../../../../core/env.dart';
 import '../../../../domain/models/enums.dart';
 import '../../../../domain/models/genre/genre.dart';
@@ -27,6 +28,10 @@ class FavoritesView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Assets.svgs.favorites.svg(
+              width: 220,
+            ),
+            const SizedBox(height: 10),
             const Text(
               'To show this section, you need to sign in',
               textAlign: TextAlign.center,
@@ -38,7 +43,13 @@ class FavoritesView extends StatelessWidget {
                   GoRouter.of(context),
                 ),
               ),
-              child: const Text('Sign In'),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Sign In',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
           ],
         ),
@@ -115,6 +126,7 @@ class _MediaListState extends State<_MediaList> with AutomaticKeepAliveClientMix
     final darMode = Theme.of(context).brightness == Brightness.light;
 
     return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 120),
       itemBuilder: (_, index) {
         final media = widget.items[index];
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -71,38 +72,53 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).viewPadding.bottom;
     final darkMode = context.watch<AppThemeBloc>().darkMode;
+    final tabBarColor = darkMode ? AppColors.dark700 : const Color(0xfff0f0f0);
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        top: false,
-        child: widget.child,
-      ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.only(
-          bottom: bottomPadding * 0.5,
-        ),
-        color: darkMode ? AppColors.dark700 : const Color(0xfff0f0f0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _TabButton(
-              selectedIcon: AppIcons.home_filled,
-              unselectedIcon: AppIcons.home,
-              index: 0,
+      body: Stack(
+        children: [
+          widget.child,
+          Positioned(
+            bottom: 10 + bottomPadding * 0.5,
+            left: 20,
+            right: 20,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(40),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 5,
+                  sigmaY: 5,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: tabBarColor.withOpacity(0.7),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _TabButton(
+                        selectedIcon: AppIcons.home_filled,
+                        unselectedIcon: AppIcons.home,
+                        index: 0,
+                      ),
+                      _TabButton(
+                        selectedIcon: AppIcons.favorite_filled,
+                        unselectedIcon: AppIcons.favorite,
+                        index: 1,
+                      ),
+                      _TabButton(
+                        selectedIcon: AppIcons.person_filled,
+                        unselectedIcon: AppIcons.person,
+                        index: 2,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            _TabButton(
-              selectedIcon: AppIcons.favorite_filled,
-              unselectedIcon: AppIcons.favorite,
-              index: 1,
-            ),
-            _TabButton(
-              selectedIcon: AppIcons.person_filled,
-              unselectedIcon: AppIcons.person,
-              index: 2,
-            ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
@@ -135,13 +151,13 @@ class _TabButton extends StatelessWidget {
         child: InkWell(
           onTap: () => state._onTap(index),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: Icon(
               active ? selectedIcon : unselectedIcon,
               color: active
-                  ? AppColors.accent
+                  ? AppColors.cyan
                   : darkMode
-                      ? Colors.white30
+                      ? Colors.white54
                       : AppColors.dark.withOpacity(
                           0.3,
                         ),
