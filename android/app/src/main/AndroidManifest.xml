@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.meedu.w2w">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="what_to_watch"
         android:name="${applicationName}"
@@ -31,7 +32,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="w2w.meedu.app" android:pathPattern=".*" />
+                <data android:scheme="https" android:host="w2w.meedu.app" />
             </intent-filter>
 
         </activity>

@@ -1,10 +1,12 @@
 import 'package:app_links/app_links.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../src/core/env.dart';
 import '../src/core/http_client.dart';
+import '../src/data/mocks/app_links.dart';
 
 Future<void> registerThirdDependencies() async {
   final httpClient = HttpClient(
@@ -25,7 +27,7 @@ Future<void> registerThirdDependencies() async {
     () => preferences,
   );
 
-  GetIt.I.registerLazySingleton(
-    () => AppLinks(),
+  GetIt.I.registerLazySingleton<AppLinks>(
+    () => kIsWeb ? MockAppLinks() : AppLinks(),
   );
 }
