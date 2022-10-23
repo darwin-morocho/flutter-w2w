@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.meedu.w2w",
+      "sha256_cert_fingerprints": [
+        "80:C4:72:FA:7C:53:5C:D9:8C:59:FE:BD:77:5C:22:4A:3D:B1:57:2D:34:E5:BD:9B:60:61:26:BB:5B:8A:D8:EE"
+      ]
+    }
+  }
+]

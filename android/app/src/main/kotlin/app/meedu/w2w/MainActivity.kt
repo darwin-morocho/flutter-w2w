@@ -1,4 +1,4 @@
-package com.example.what_to_watch
+package app.meedu.w2w
 
 import io.flutter.embedding.android.FlutterActivity
 

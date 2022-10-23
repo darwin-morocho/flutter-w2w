@@ -1,0 +1,14 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "4X8W3GTB3N.app.meedu.w2w",
+                "paths": [
+                    "*",
+                    "/"
+                ]
+            }
+        ]
+    }
+}

@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import '../../../../../core/env.dart';
 import '../../../../../domain/models/enums.dart';
 import '../../../../../domain/models/media/media.dart';
+import '../../../../global/build_context_extension.dart';
 import '../../../../router/router.dart';
 
 class TrendingList extends StatelessWidget {
@@ -15,6 +16,7 @@ class TrendingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLargeScreen = context.isLargeScreen;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -29,7 +31,7 @@ class TrendingList extends StatelessWidget {
           ),
         ),
         AspectRatio(
-          aspectRatio: 16 / 9,
+          aspectRatio: isLargeScreen ? 12 / 2 : 16 / 9,
           child: LayoutBuilder(
             builder: (_, constraints) {
               final width = constraints.maxHeight * 0.7;

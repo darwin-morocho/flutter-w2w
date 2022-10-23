@@ -10,12 +10,15 @@
     "flutter pub get": "flutter pub get",
     "flutter clean": "flutter clean",
     "flutter_gen": "flutter pub run flutter_gen:flutter_gen_command",
-    "lcov genthml": "genhtml coverage/lcov.info --output=coverage"
+    "lcov genthml": "genhtml coverage/lcov.info --output=coverage",
+    "build web": "flutter build web --release --dart-define=API_KEY=20ac754dbe6ba584a7a8a8690c755249 --dart-define=BASE_URL=https://api.themoviedb.org/3 --dart-define=BASE_IMAGE_URL=https://image.tmdb.org/t/p/",
+    "run web": "flutter run -d chrome --dart-define=API_KEY=20ac754dbe6ba584a7a8a8690c755249 --dart-define=BASE_URL=https://api.themoviedb.org/3 --dart-define=BASE_IMAGE_URL=https://image.tmdb.org/t/p/",
+    "build ipa": "flutter build ipa --dart-define=API_KEY=20ac754dbe6ba584a7a8a8690c755249 --dart-define=BASE_URL=https://api.themoviedb.org/3 --dart-define=BASE_IMAGE_URL=https://image.tmdb.org/t/p/"
   },
   "dart.lineLength": 100,
   "[dart]": {
     "editor.rulers": [
-        100
+      100
     ],
-}
+  }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/env.dart';
 import '../../../../../domain/models/movie/movie.dart';
 import '../../../../global/app_colors.dart';
+import '../../../../global/build_context_extension.dart';
 
 class MovieBanner extends StatelessWidget {
   const MovieBanner({
@@ -33,7 +34,7 @@ class MovieBanner extends StatelessWidget {
     return Stack(
       children: [
         AspectRatio(
-          aspectRatio: 16 / 14,
+          aspectRatio: context.isLargeScreen ? 16 / 5 : 16 / 14,
           child: ExtendedImage.network(
             Env.getImageUrl(path, size: ImageSize.original),
             height: double.infinity,

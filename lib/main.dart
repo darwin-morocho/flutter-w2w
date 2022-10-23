@@ -19,7 +19,7 @@ void main() async {
   final defaultLanguageCode = LocaleSettings.currentLocale.languageCode;
   setUrlStrategy(PathUrlStrategy()); // remove # from url
   await registerThirdDependencies();
-  registerRepositories(
+  await registerRepositories(
     defaultLanguageCode: defaultLanguageCode,
   );
 

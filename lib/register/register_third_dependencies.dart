@@ -1,3 +1,4 @@
+import 'package:app_links/app_links.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,5 +23,9 @@ Future<void> registerThirdDependencies() async {
 
   GetIt.I.registerLazySingleton(
     () => preferences,
+  );
+
+  GetIt.I.registerLazySingleton(
+    () => AppLinks(),
   );
 }

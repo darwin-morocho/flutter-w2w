@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../register/register_repositories.dart';
+import '../../core/platform.dart';
 import '../../my_app.dart';
 import '../global/blocs/app_configuration/app_configuration_bloc.dart';
 import '../global/widgets/main_scaffold.dart';
@@ -32,7 +34,19 @@ mixin RouterMixin on State<MyApp> {
           orElse: () => Routes.serverError,
         );
       },
-      right: (_) => Routes.home,
+      right: (_) {
+        String location = Routes.home;
+        if (isIOS) {
+          final initialLink = Repositories.deepLinks.initialLink;
+          if (initialLink != null) {
+            location = initialLink.path;
+            if (!location.startsWith('/')) {
+              location = '/$location';
+            }
+          }
+        }
+        return location;
+      },
     );
     _router = GoRouter(
       navigatorKey: rootNavigatorKey,

@@ -1,7 +1,9 @@
+import 'package:app_links/app_links.dart';
 import 'package:get_it/get_it.dart';
 
 import '../src/data/repositories_implementation/account_repository_impl.dart';
 import '../src/data/repositories_implementation/auth_repository_impl.dart';
+import '../src/data/repositories_implementation/deep_links_repository_impl.dart';
 import '../src/data/repositories_implementation/genres_repository_impl.dart';
 import '../src/data/repositories_implementation/language_repository_impl.dart';
 import '../src/data/repositories_implementation/movies_repository_impl.dart';
@@ -16,21 +18,26 @@ import '../src/data/services/web/movies.dart';
 import '../src/data/services/web/trending.dart';
 import '../src/domain/repositories/account_repository.dart';
 import '../src/domain/repositories/auth_repository.dart';
+import '../src/domain/repositories/deep_links_repository.dart';
 import '../src/domain/repositories/genres_repository.dart';
 import '../src/domain/repositories/language_repository.dart';
 import '../src/domain/repositories/movies_repository.dart';
 import '../src/domain/repositories/preferences_repository.dart';
 import '../src/domain/repositories/trending_repository.dart';
 
-void registerRepositories({
+Future<void> registerRepositories({
   required String defaultLanguageCode,
-}) {
+}) async {
   final sessionService = SessionService(
     GetIt.I.get(),
   );
   final authService = AuthService(
     GetIt.I.get(),
   );
+
+  final AppLinks appLinks = GetIt.I.get();
+
+  final initialLink = await appLinks.getInitialAppLink();
 
   final languageService = LanguageService(defaultLanguageCode);
 
@@ -90,6 +97,11 @@ void registerRepositories({
       GetIt.I.get(),
     ),
   );
+  GetIt.I.registerLazySingleton<DeepLinksRepository>(
+    () => DeepLinksRepositoryImpl(
+      initialLink: initialLink,
+    ),
+  );
 }
 
 class Repositories {
@@ -102,4 +114,5 @@ class Repositories {
   static TrendingRepository get trending => GetIt.I.get();
   static MoviesRepository get movies => GetIt.I.get();
   static PreferencesRepository get preferences => GetIt.I.get();
+  static DeepLinksRepository get deepLinks => GetIt.I.get();
 }
