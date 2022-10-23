@@ -2,96 +2,65 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-import '../../../../../../register/register_repositories.dart';
-import '../../../../../core/either/either.dart';
 import '../../../../../core/env.dart';
-import '../../../../../domain/failures/http_request/http_request_failure.dart';
 import '../../../../../domain/models/performer/performer.dart';
 import '../../../../global/app_colors.dart';
 import '../../../../global/app_icons.dart';
 
-class MovieCredits extends StatefulWidget {
-  const MovieCredits({
-    super.key,
-    required this.movieId,
-  });
-  final int movieId;
+class MovieCast extends StatelessWidget {
+  const MovieCast({super.key, required this.cast});
 
-  @override
-  State<MovieCredits> createState() => _MovieCreditsState();
-}
-
-class _MovieCreditsState extends State<MovieCredits> {
-  late final Future<Either<HttpRequestFailure, List<Performer>>> _future;
-  @override
-  void initState() {
-    super.initState();
-
-    _future = Repositories.movies.getMovieCredits(
-      widget.movieId.toString(),
-    );
-  }
+  final List<Performer> cast;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _future,
-      builder: (_, snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data!.isRight) {
-            final cast = snapshot.data!.right;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20).copyWith(
-                    bottom: 5,
-                    top: 10,
-                  ),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Cast',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                      TextButton(
-                        onPressed: () => _showAllCast(context, cast),
-                        child: const Text(
-                          'Show all',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20).copyWith(
+            bottom: 5,
+            top: 10,
+          ),
+          child: Row(
+            children: [
+              const Text(
+                'Cast',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const Spacer(),
+              TextButton(
+                onPressed: () => _showAllCast(context, cast),
+                child: const Text(
+                  'Show all',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(
-                  height: 50,
-                  child: ListView.separated(
-                    separatorBuilder: (_, __) => const SizedBox(width: 15),
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (_, index) {
-                      final performer = cast[index];
-                      return PerformerListTile(
-                        performer: performer,
-                        mode: Axis.horizontal,
-                      );
-                    },
-                    itemCount: cast.length,
-                  ),
-                ),
-              ],
-            );
-          }
-        }
-        return Container();
-      },
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 50,
+          child: ListView.separated(
+            separatorBuilder: (_, __) => const SizedBox(width: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (_, index) {
+              final performer = cast[index];
+              return PerformerListTile(
+                performer: performer,
+                mode: Axis.horizontal,
+              );
+            },
+            itemCount: cast.length,
+          ),
+        ),
+      ],
     );
   }
 

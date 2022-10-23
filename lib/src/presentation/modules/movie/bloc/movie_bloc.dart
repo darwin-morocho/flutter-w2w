@@ -15,9 +15,23 @@ class MovieBLoC extends StateNotifier<MovieState> {
     }
 
     final result = await moviesRepository.getMovie(state.id);
-    state = result.when(
-      left: (_) => MovieFailed(state.id),
-      right: (movie) => MovieLoaded(id: state.id, movie: movie),
+    state = await result.when(
+      left: (_) async => MovieFailed(state.id),
+      right: (movie) async {
+        final cast = await moviesRepository.getMovieCredits(
+          movie.id.toString(),
+        );
+        final recommendations = await moviesRepository.getMovieRecommendations(
+          movie.id.toString(),
+        );
+
+        return MovieLoaded(
+          id: state.id,
+          movie: movie,
+          cast: cast.when(left: (_) => null, right: (value) => value),
+          recomendations: recommendations.when(left: (_) => null, right: (value) => value),
+        );
+      },
     );
   }
 }

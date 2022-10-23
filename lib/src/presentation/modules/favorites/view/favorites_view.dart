@@ -124,11 +124,13 @@ class _MediaListState extends State<_MediaList> with AutomaticKeepAliveClientMix
     super.build(context);
 
     final darMode = Theme.of(context).brightness == Brightness.light;
-
-    return ListView.builder(
+    final shortestSide = MediaQuery.of(context).size.width;
+    final isLandscape = shortestSide >= 720;
+    final items = widget.items;
+    return GridView.builder(
       padding: const EdgeInsets.only(bottom: 120),
       itemBuilder: (_, index) {
-        final media = widget.items[index];
+        final media = items[index];
 
         return Padding(
           padding: const EdgeInsets.all(8.0).copyWith(
@@ -154,7 +156,7 @@ class _MediaListState extends State<_MediaList> with AutomaticKeepAliveClientMix
                   child: Row(
                     children: [
                       SizedBox(
-                        width: 80,
+                        width: isLandscape ? 140 : 80,
                         child: ExtendedImage.network(
                           Env.getImageUrl(media.posterPath),
                           width: double.infinity,
@@ -223,7 +225,15 @@ class _MediaListState extends State<_MediaList> with AutomaticKeepAliveClientMix
           ),
         );
       },
-      itemCount: widget.items.length,
+      itemCount: items.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        childAspectRatio: 12 / 4,
+        crossAxisCount: isLandscape
+            ? shortestSide >= 1280
+                ? 3
+                : 2
+            : 1,
+      ),
     );
   }
 

@@ -20,21 +20,22 @@ mixin _$HomeState {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function() failed,
-    required TResult Function(List<Media> trendingList) loaded,
+    required TResult Function(List<Media> trendingList, List<Trailer> trailers)
+        loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function()? failed,
-    TResult Function(List<Media> trendingList)? loaded,
+    TResult Function(List<Media> trendingList, List<Trailer> trailers)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function()? failed,
-    TResult Function(List<Media> trendingList)? loaded,
+    TResult Function(List<Media> trendingList, List<Trailer> trailers)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -119,7 +120,8 @@ class _$HomeLoading implements HomeLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function() failed,
-    required TResult Function(List<Media> trendingList) loaded,
+    required TResult Function(List<Media> trendingList, List<Trailer> trailers)
+        loaded,
   }) {
     return loading();
   }
@@ -129,7 +131,7 @@ class _$HomeLoading implements HomeLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function()? failed,
-    TResult Function(List<Media> trendingList)? loaded,
+    TResult Function(List<Media> trendingList, List<Trailer> trailers)? loaded,
   }) {
     return loading?.call();
   }
@@ -139,7 +141,7 @@ class _$HomeLoading implements HomeLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function()? failed,
-    TResult Function(List<Media> trendingList)? loaded,
+    TResult Function(List<Media> trendingList, List<Trailer> trailers)? loaded,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -229,7 +231,8 @@ class _$HomeFailed implements HomeFailed {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function() failed,
-    required TResult Function(List<Media> trendingList) loaded,
+    required TResult Function(List<Media> trendingList, List<Trailer> trailers)
+        loaded,
   }) {
     return failed();
   }
@@ -239,7 +242,7 @@ class _$HomeFailed implements HomeFailed {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function()? failed,
-    TResult Function(List<Media> trendingList)? loaded,
+    TResult Function(List<Media> trendingList, List<Trailer> trailers)? loaded,
   }) {
     return failed?.call();
   }
@@ -249,7 +252,7 @@ class _$HomeFailed implements HomeFailed {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function()? failed,
-    TResult Function(List<Media> trendingList)? loaded,
+    TResult Function(List<Media> trendingList, List<Trailer> trailers)? loaded,
     required TResult orElse(),
   }) {
     if (failed != null) {
@@ -302,7 +305,7 @@ abstract class _$$HomeLoadedCopyWith<$Res> {
   factory _$$HomeLoadedCopyWith(
           _$HomeLoaded value, $Res Function(_$HomeLoaded) then) =
       __$$HomeLoadedCopyWithImpl<$Res>;
-  $Res call({List<Media> trendingList});
+  $Res call({List<Media> trendingList, List<Trailer> trailers});
 }
 
 /// @nodoc
@@ -318,12 +321,17 @@ class __$$HomeLoadedCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? trendingList = freezed,
+    Object? trailers = freezed,
   }) {
     return _then(_$HomeLoaded(
       trendingList: trendingList == freezed
           ? _value._trendingList
           : trendingList // ignore: cast_nullable_to_non_nullable
               as List<Media>,
+      trailers: trailers == freezed
+          ? _value._trailers
+          : trailers // ignore: cast_nullable_to_non_nullable
+              as List<Trailer>,
     ));
   }
 }
@@ -331,8 +339,11 @@ class __$$HomeLoadedCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomeLoaded implements HomeLoaded {
-  const _$HomeLoaded({required final List<Media> trendingList})
-      : _trendingList = trendingList;
+  const _$HomeLoaded(
+      {required final List<Media> trendingList,
+      required final List<Trailer> trailers})
+      : _trendingList = trendingList,
+        _trailers = trailers;
 
   final List<Media> _trendingList;
   @override
@@ -341,9 +352,16 @@ class _$HomeLoaded implements HomeLoaded {
     return EqualUnmodifiableListView(_trendingList);
   }
 
+  final List<Trailer> _trailers;
+  @override
+  List<Trailer> get trailers {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_trailers);
+  }
+
   @override
   String toString() {
-    return 'HomeState.loaded(trendingList: $trendingList)';
+    return 'HomeState.loaded(trendingList: $trendingList, trailers: $trailers)';
   }
 
   @override
@@ -352,12 +370,15 @@ class _$HomeLoaded implements HomeLoaded {
         (other.runtimeType == runtimeType &&
             other is _$HomeLoaded &&
             const DeepCollectionEquality()
-                .equals(other._trendingList, _trendingList));
+                .equals(other._trendingList, _trendingList) &&
+            const DeepCollectionEquality().equals(other._trailers, _trailers));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_trendingList));
+      runtimeType,
+      const DeepCollectionEquality().hash(_trendingList),
+      const DeepCollectionEquality().hash(_trailers));
 
   @JsonKey(ignore: true)
   @override
@@ -369,9 +390,10 @@ class _$HomeLoaded implements HomeLoaded {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function() failed,
-    required TResult Function(List<Media> trendingList) loaded,
+    required TResult Function(List<Media> trendingList, List<Trailer> trailers)
+        loaded,
   }) {
-    return loaded(trendingList);
+    return loaded(trendingList, trailers);
   }
 
   @override
@@ -379,9 +401,9 @@ class _$HomeLoaded implements HomeLoaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function()? failed,
-    TResult Function(List<Media> trendingList)? loaded,
+    TResult Function(List<Media> trendingList, List<Trailer> trailers)? loaded,
   }) {
-    return loaded?.call(trendingList);
+    return loaded?.call(trendingList, trailers);
   }
 
   @override
@@ -389,11 +411,11 @@ class _$HomeLoaded implements HomeLoaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function()? failed,
-    TResult Function(List<Media> trendingList)? loaded,
+    TResult Function(List<Media> trendingList, List<Trailer> trailers)? loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(trendingList);
+      return loaded(trendingList, trailers);
     }
     return orElse();
   }
@@ -434,10 +456,12 @@ class _$HomeLoaded implements HomeLoaded {
 }
 
 abstract class HomeLoaded implements HomeState {
-  const factory HomeLoaded({required final List<Media> trendingList}) =
-      _$HomeLoaded;
+  const factory HomeLoaded(
+      {required final List<Media> trendingList,
+      required final List<Trailer> trailers}) = _$HomeLoaded;
 
   List<Media> get trendingList;
+  List<Trailer> get trailers;
   @JsonKey(ignore: true)
   _$$HomeLoadedCopyWith<_$HomeLoaded> get copyWith =>
       throw _privateConstructorUsedError;

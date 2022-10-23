@@ -9,6 +9,10 @@
                 "--dart-define=API_KEY=20ac754dbe6ba584a7a8a8690c755249",
                 "--dart-define=BASE_URL=https://api.themoviedb.org/3",
                 "--dart-define=BASE_IMAGE_URL=https://image.tmdb.org/t/p/",
+                "--dart-define=YOUTUBE_API_KEY=AIzaSyBKEZPBygAFGaJKk8V1ecnflpOm7ereVZ8",
+                "--dart-define=YOUTUBE_API_KEY_IOS=AIzaSyDd_EoLsM8ZAQ0-MR4Pqy4L67EnLQqJphI",
+                "--dart-define=YOUTUBE_CHANNEL_ID=UCcVNDl7ZJMf9lC9a34CY4RA",
+                "--dart-define=YOUTUBE_BASE_URL=https://www.googleapis.com/youtube/v3",
             ]
         },
         {
@@ -22,6 +26,9 @@
                 "--dart-define=API_KEY=20ac754dbe6ba584a7a8a8690c755249",
                 "--dart-define=BASE_URL=https://api.themoviedb.org/3",
                 "--dart-define=BASE_IMAGE_URL=https://image.tmdb.org/t/p/",
+                "--dart-define=YOUTUBE_API_KEY=AIzaSyD-GMgajOcqY5HFqTYYjibHmObG7XxzNnQ",
+                "--dart-define=YOUTUBE_CHANNEL_ID=UCcVNDl7ZJMf9lC9a34CY4RA",
+                "--dart-define=YOUTUBE_BASE_URL=https://www.googleapis.com/youtube/v3",
             ]
         },
         {
@@ -34,6 +41,10 @@
                 "--dart-define=API_KEY=20ac754dbe6ba584a7a8a8690c755249",
                 "--dart-define=BASE_URL=https://api.themoviedb.org/3",
                 "--dart-define=BASE_IMAGE_URL=https://image.tmdb.org/t/p/",
+                "--dart-define=YOUTUBE_API_KEY=AIzaSyBKEZPBygAFGaJKk8V1ecnflpOm7ereVZ8",
+                "--dart-define=YOUTUBE_API_KEY_IOS=AIzaSyDd_EoLsM8ZAQ0-MR4Pqy4L67EnLQqJphI",
+                "--dart-define=YOUTUBE_CHANNEL_ID=UCcVNDl7ZJMf9lC9a34CY4RA",
+                "--dart-define=YOUTUBE_BASE_URL=https://www.googleapis.com/youtube/v3",
             ]
         }
     ]

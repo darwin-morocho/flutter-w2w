@@ -55,6 +55,9 @@ dependencies:
   modal_bottom_sheet: ^2.1.2
   flutter_svg: ^1.1.5
   app_links: ^3.3.0
+  smooth_page_indicator: ^1.0.0+2
+  url_launcher: ^6.1.6
+  youtube_player_flutter: ^8.1.1
 
 dev_dependencies:
   flutter_test:

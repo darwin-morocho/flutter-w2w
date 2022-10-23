@@ -5,6 +5,7 @@ import '../../../../../../register/register_repositories.dart';
 import '../../../global/blocs/app_configuration/app_configuration_bloc.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/state/home_state.dart';
+import 'widgets/trailers.dart';
 import 'widgets/trending_list.dart';
 
 class HomeView extends StatelessWidget {
@@ -18,11 +19,13 @@ class HomeView extends StatelessWidget {
       create: (_) => HomeBLoC(
         const HomeState.loading(),
         trendingRepository: Repositories.trending,
+        youtubeRepository: Repositories.youtube,
       )..init(),
       child: Scaffold(
         body: SafeArea(
           child: Column(
             children: [
+              const SizedBox(height: 15),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -48,12 +51,21 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 15),
-              Consumer<HomeBLoC>(
-                builder: (_, bloc, __) => bloc.state.map(
-                  loading: (_) => const CircularProgressIndicator(),
-                  failed: (_) => Container(),
-                  loaded: (state) => TrendingList(
-                    trendingList: state.trendingList,
+              Expanded(
+                child: Consumer<HomeBLoC>(
+                  builder: (_, bloc, __) => bloc.state.map(
+                    loading: (_) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    failed: (_) => Container(),
+                    loaded: (state) => Column(
+                      children: [
+                        TrendingList(
+                          trendingList: state.trendingList,
+                        ),
+                        Trailers(trailers: state.trailers),
+                      ],
+                    ),
                   ),
                 ),
               ),

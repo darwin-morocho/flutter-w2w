@@ -11,7 +11,9 @@ class MovieBanner extends StatelessWidget {
     super.key,
     required this.path,
     this.movie,
+    this.orientation,
   });
+  final Orientation? orientation;
   final String path;
   final Movie? movie;
 
@@ -31,24 +33,32 @@ class MovieBanner extends StatelessWidget {
       ),
     );
 
+    final image = ExtendedImage.network(
+      Env.getImageUrl(path, size: ImageSize.original),
+      height: double.infinity,
+      width: double.infinity,
+      fit: BoxFit.cover,
+    );
+
+    final isLandscape = context.isLandscape;
+
     return Stack(
       children: [
-        AspectRatio(
-          aspectRatio: context.isLargeScreen ? 16 / 5 : 16 / 14,
-          child: ExtendedImage.network(
-            Env.getImageUrl(path, size: ImageSize.original),
-            height: double.infinity,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-        ),
+        isLandscape
+            ? image
+            : AspectRatio(
+                aspectRatio: 16 / 14,
+                child: image,
+              ),
         Positioned(
           left: 0,
           right: 0,
           bottom: -2,
           child: movie != null
               ? Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20).copyWith(
+                    bottom: isLandscape ? 120 : 20,
+                  ),
                   decoration: decoration,
                   child: Row(
                     children: [

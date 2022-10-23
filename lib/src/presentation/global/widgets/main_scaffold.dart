@@ -11,7 +11,6 @@ import '../app_icons.dart';
 import '../blocs/app_theme/bloc.dart';
 import '../blocs/favorites/bloc.dart';
 import '../blocs/session/session_bloc.dart';
-import '../build_context_extension.dart';
 import '../mixins/after_first_layout.dart';
 
 const _paths = [
@@ -74,7 +73,6 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
     final bottomPadding = MediaQuery.of(context).viewPadding.bottom;
     final darkMode = context.watch<AppThemeBloc>().darkMode;
     final tabBarColor = darkMode ? AppColors.dark700 : const Color(0xfff0f0f0);
-    final isLargeScreen = context.isLargeScreen;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -86,7 +84,7 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
             bottom: 10 + bottomPadding * 0.5,
             child: ConstrainedBox(
               constraints: const BoxConstraints(
-                maxWidth: 380,
+                maxWidth: 360,
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(40),

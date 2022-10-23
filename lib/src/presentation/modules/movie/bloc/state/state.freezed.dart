@@ -20,21 +20,27 @@ mixin _$MovieState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) loading,
-    required TResult Function(String id, Movie movie) loaded,
+    required TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)
+        loaded,
     required TResult Function(String id) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String id)? loading,
-    TResult Function(String id, Movie movie)? loaded,
+    TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)?
+        loaded,
     TResult Function(String id)? failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? loading,
-    TResult Function(String id, Movie movie)? loaded,
+    TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)?
+        loaded,
     TResult Function(String id)? failed,
     required TResult orElse(),
   }) =>
@@ -163,7 +169,9 @@ class _$MovieLoading implements MovieLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) loading,
-    required TResult Function(String id, Movie movie) loaded,
+    required TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)
+        loaded,
     required TResult Function(String id) failed,
   }) {
     return loading(id);
@@ -173,7 +181,9 @@ class _$MovieLoading implements MovieLoading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String id)? loading,
-    TResult Function(String id, Movie movie)? loaded,
+    TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)?
+        loaded,
     TResult Function(String id)? failed,
   }) {
     return loading?.call(id);
@@ -183,7 +193,9 @@ class _$MovieLoading implements MovieLoading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? loading,
-    TResult Function(String id, Movie movie)? loaded,
+    TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)?
+        loaded,
     TResult Function(String id)? failed,
     required TResult orElse(),
   }) {
@@ -246,7 +258,11 @@ abstract class _$$MovieLoadedCopyWith<$Res>
           _$MovieLoaded value, $Res Function(_$MovieLoaded) then) =
       __$$MovieLoadedCopyWithImpl<$Res>;
   @override
-  $Res call({String id, Movie movie});
+  $Res call(
+      {String id,
+      Movie movie,
+      List<Performer>? cast,
+      List<Media>? recomendations});
 
   $MovieCopyWith<$Res> get movie;
 }
@@ -265,6 +281,8 @@ class __$$MovieLoadedCopyWithImpl<$Res> extends _$MovieStateCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? movie = freezed,
+    Object? cast = freezed,
+    Object? recomendations = freezed,
   }) {
     return _then(_$MovieLoaded(
       id: id == freezed
@@ -275,6 +293,14 @@ class __$$MovieLoadedCopyWithImpl<$Res> extends _$MovieStateCopyWithImpl<$Res>
           ? _value.movie
           : movie // ignore: cast_nullable_to_non_nullable
               as Movie,
+      cast: cast == freezed
+          ? _value._cast
+          : cast // ignore: cast_nullable_to_non_nullable
+              as List<Performer>?,
+      recomendations: recomendations == freezed
+          ? _value._recomendations
+          : recomendations // ignore: cast_nullable_to_non_nullable
+              as List<Media>?,
     ));
   }
 
@@ -289,16 +315,39 @@ class __$$MovieLoadedCopyWithImpl<$Res> extends _$MovieStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$MovieLoaded implements MovieLoaded {
-  const _$MovieLoaded({required this.id, required this.movie});
+  const _$MovieLoaded(
+      {required this.id,
+      required this.movie,
+      required final List<Performer>? cast,
+      required final List<Media>? recomendations})
+      : _cast = cast,
+        _recomendations = recomendations;
 
   @override
   final String id;
   @override
   final Movie movie;
+  final List<Performer>? _cast;
+  @override
+  List<Performer>? get cast {
+    final value = _cast;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<Media>? _recomendations;
+  @override
+  List<Media>? get recomendations {
+    final value = _recomendations;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'MovieState.loaded(id: $id, movie: $movie)';
+    return 'MovieState.loaded(id: $id, movie: $movie, cast: $cast, recomendations: $recomendations)';
   }
 
   @override
@@ -307,14 +356,19 @@ class _$MovieLoaded implements MovieLoaded {
         (other.runtimeType == runtimeType &&
             other is _$MovieLoaded &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.movie, movie));
+            const DeepCollectionEquality().equals(other.movie, movie) &&
+            const DeepCollectionEquality().equals(other._cast, _cast) &&
+            const DeepCollectionEquality()
+                .equals(other._recomendations, _recomendations));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(movie));
+      const DeepCollectionEquality().hash(movie),
+      const DeepCollectionEquality().hash(_cast),
+      const DeepCollectionEquality().hash(_recomendations));
 
   @JsonKey(ignore: true)
   @override
@@ -325,32 +379,38 @@ class _$MovieLoaded implements MovieLoaded {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) loading,
-    required TResult Function(String id, Movie movie) loaded,
+    required TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)
+        loaded,
     required TResult Function(String id) failed,
   }) {
-    return loaded(id, movie);
+    return loaded(id, movie, cast, recomendations);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String id)? loading,
-    TResult Function(String id, Movie movie)? loaded,
+    TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)?
+        loaded,
     TResult Function(String id)? failed,
   }) {
-    return loaded?.call(id, movie);
+    return loaded?.call(id, movie, cast, recomendations);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? loading,
-    TResult Function(String id, Movie movie)? loaded,
+    TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)?
+        loaded,
     TResult Function(String id)? failed,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(id, movie);
+      return loaded(id, movie, cast, recomendations);
     }
     return orElse();
   }
@@ -392,11 +452,16 @@ class _$MovieLoaded implements MovieLoaded {
 
 abstract class MovieLoaded implements MovieState {
   const factory MovieLoaded(
-      {required final String id, required final Movie movie}) = _$MovieLoaded;
+      {required final String id,
+      required final Movie movie,
+      required final List<Performer>? cast,
+      required final List<Media>? recomendations}) = _$MovieLoaded;
 
   @override
   String get id;
   Movie get movie;
+  List<Performer>? get cast;
+  List<Media>? get recomendations;
   @override
   @JsonKey(ignore: true)
   _$$MovieLoadedCopyWith<_$MovieLoaded> get copyWith =>
@@ -470,7 +535,9 @@ class _$MovieFailed implements MovieFailed {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) loading,
-    required TResult Function(String id, Movie movie) loaded,
+    required TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)
+        loaded,
     required TResult Function(String id) failed,
   }) {
     return failed(id);
@@ -480,7 +547,9 @@ class _$MovieFailed implements MovieFailed {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String id)? loading,
-    TResult Function(String id, Movie movie)? loaded,
+    TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)?
+        loaded,
     TResult Function(String id)? failed,
   }) {
     return failed?.call(id);
@@ -490,7 +559,9 @@ class _$MovieFailed implements MovieFailed {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? loading,
-    TResult Function(String id, Movie movie)? loaded,
+    TResult Function(String id, Movie movie, List<Performer>? cast,
+            List<Media>? recomendations)?
+        loaded,
     TResult Function(String id)? failed,
     required TResult orElse(),
   }) {

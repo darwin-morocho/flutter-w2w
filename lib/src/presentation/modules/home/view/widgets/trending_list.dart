@@ -16,7 +16,7 @@ class TrendingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLargeScreen = context.isLargeScreen;
+    final isLargeScreen = context.isLandscape;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

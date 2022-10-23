@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../domain/models/media/media.dart';
+import '../../../../global/build_context_extension.dart';
 import 'banner.dart';
 
 class MovieLoader extends StatelessWidget {
@@ -18,14 +19,18 @@ class MovieLoader extends StatelessWidget {
       );
     }
 
-    return Column(
+    final isLandscape = context.isLandscape;
+    final banner = Hero(
+      tag: 'movie-${media!.id}',
+      child: MovieBanner(
+        path: media!.backdropPath,
+      ),
+    );
+
+    return Flex(
+      direction: isLandscape ? Axis.horizontal : Axis.vertical,
       children: [
-        Hero(
-          tag: 'movie-${media!.id}',
-          child: MovieBanner(
-            path: media!.backdropPath,
-          ),
-        ),
+        if (isLandscape) Expanded(child: banner) else banner,
         const Expanded(
           child: Center(
             child: CircularProgressIndicator(),

@@ -29,81 +29,88 @@ class SignInView extends StatelessWidget {
 
         return Scaffold(
           body: SafeArea(
-            child: CustomScrollView(
-              slivers: [
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: AbsorbPointer(
-                      absorbing: state.submitting,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextField(
-                            onChanged: bloc.onUsernameChanged,
-                            textInputAction: TextInputAction.next,
-                            decoration: const InputDecoration(
-                              label: Text('username'),
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          TextField(
-                            onChanged: bloc.onPasswordChanged,
-                            textInputAction: TextInputAction.send,
-                            decoration: const InputDecoration(
-                              label: Text('password'),
-                              border: OutlineInputBorder(),
-                            ),
-                            onSubmitted: (_) {
-                              if (allowSubmit) {
-                                _submit(context);
-                              }
-                            },
-                          ),
-                          const SizedBox(height: 50),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: allowSubmit
-                                  ? () {
-                                      _submit(context);
-                                    }
-                                  : null,
-                              child: state.submitting
-                                  ? const SizedBox(
-                                      width: 30,
-                                      height: 30,
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  : const Text(
-                                      'SIGN IN',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 400,
+                ),
+                child: CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: AbsorbPointer(
+                          absorbing: state.submitting,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              const Text('Not a member?'),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'Register Now',
+                              TextField(
+                                onChanged: bloc.onUsernameChanged,
+                                textInputAction: TextInputAction.next,
+                                decoration: const InputDecoration(
+                                  label: Text('username'),
+                                  border: OutlineInputBorder(),
                                 ),
+                              ),
+                              const SizedBox(height: 20),
+                              TextField(
+                                onChanged: bloc.onPasswordChanged,
+                                textInputAction: TextInputAction.send,
+                                decoration: const InputDecoration(
+                                  label: Text('password'),
+                                  border: OutlineInputBorder(),
+                                ),
+                                onSubmitted: (_) {
+                                  if (allowSubmit) {
+                                    _submit(context);
+                                  }
+                                },
+                              ),
+                              const SizedBox(height: 50),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: allowSubmit
+                                      ? () {
+                                          _submit(context);
+                                        }
+                                      : null,
+                                  child: state.submitting
+                                      ? const SizedBox(
+                                          width: 30,
+                                          height: 30,
+                                          child: CircularProgressIndicator(),
+                                        )
+                                      : const Text(
+                                          'SIGN IN',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                ),
+                              ),
+                              const SizedBox(height: 30),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text('Not a member?'),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text(
+                                      'Register Now',
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         );
