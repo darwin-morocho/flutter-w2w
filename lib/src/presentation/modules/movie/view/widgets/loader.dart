@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../domain/models/media/media.dart';
 import '../../../../global/build_context_extension.dart';
-import 'banner.dart';
+import '../../../../global/widgets/media/media_banner.dart';
 
 class MovieLoader extends StatelessWidget {
   const MovieLoader({
@@ -22,8 +22,9 @@ class MovieLoader extends StatelessWidget {
     final isLandscape = context.isLandscape;
     final banner = Hero(
       tag: 'movie-${media!.id}',
-      child: MovieBanner(
+      child: MediaBanner(
         path: media!.backdropPath,
+        data: null,
       ),
     );
 

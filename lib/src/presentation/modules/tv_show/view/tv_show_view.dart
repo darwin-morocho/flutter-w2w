@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../../register/register_repositories.dart';
 import '../../../../domain/models/media/media.dart';
+import '../../../global/widgets/media/media_banner.dart';
+import '../../../global/widgets/media/media_overview.dart';
+import '../../../global/widgets/scroll_view.dart';
 import '../../../router/router.dart';
+import '../bloc/bloc.dart';
+import '../bloc/state/state.dart';
+import 'widgets/app_bar.dart';
+import 'widgets/seasons.dart';
 
 class TvShowView extends StatelessWidget {
   const TvShowView({
@@ -11,17 +20,54 @@ class TvShowView extends StatelessWidget {
     this.media,
   });
 
-  final String id;
+  final int id;
   final Media? media;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).backgroundColor,
-      child: Column(
-        children: [
-          AppBar(),
-        ],
+    return ChangeNotifierProvider(
+      create: (_) => TvShowBloc(
+        TvShowLoading(id),
+        tvShowsRepository: Repositories.tv,
+      )..init(),
+      child: Container(
+        color: Theme.of(context).backgroundColor,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Consumer<TvShowBloc>(
+                builder: (_, bloc, __) => bloc.state.maybeMap(
+                  loaded: (state) => MyScrollView(
+                    children: [
+                      MediaBanner(
+                        path: state.show.backdropPath,
+                        data: BannerData(
+                          genres: state.show.genres,
+                          name: state.show.name,
+                          voteAverage: state.show.voteAverage,
+                        ),
+                      ),
+                      MediaOverview(text: state.show.overview),
+                      TvShowSeasons(seasons: state.show.seasons),
+                      const SizedBox(height: 120),
+                    ],
+                  ),
+                  orElse: () => media != null
+                      ? Column(
+                          children: [
+                            MediaBanner(
+                              path: media!.backdropPath,
+                              data: null,
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
+                ),
+              ),
+            ),
+            const TvShowAppBar(),
+          ],
+        ),
       ),
     );
   }
@@ -36,7 +82,7 @@ class TvShowView extends StatelessWidget {
         if (extra is Media) {
           media = extra;
         }
-        return TvShowView(id: id, media: media);
+        return TvShowView(id: int.parse(id), media: media);
       },
     );
   }

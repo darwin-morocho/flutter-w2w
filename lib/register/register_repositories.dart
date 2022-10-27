@@ -9,6 +9,7 @@ import '../src/data/repositories_implementation/language_repository_impl.dart';
 import '../src/data/repositories_implementation/movies_repository_impl.dart';
 import '../src/data/repositories_implementation/preferences_repository_impl.dart';
 import '../src/data/repositories_implementation/trending_repository_impl.dart';
+import '../src/data/repositories_implementation/tv_shows_repository_impl.dart';
 import '../src/data/repositories_implementation/youtube_repository_impl.dart';
 import '../src/data/services/local/language_service.dart';
 import '../src/data/services/local/session.dart';
@@ -17,6 +18,7 @@ import '../src/data/services/web/auth.dart';
 import '../src/data/services/web/genre.dart';
 import '../src/data/services/web/movies.dart';
 import '../src/data/services/web/trending.dart';
+import '../src/data/services/web/tv_shows.dart';
 import '../src/data/services/web/youtube.dart';
 import '../src/domain/repositories/account_repository.dart';
 import '../src/domain/repositories/auth_repository.dart';
@@ -26,6 +28,7 @@ import '../src/domain/repositories/language_repository.dart';
 import '../src/domain/repositories/movies_repository.dart';
 import '../src/domain/repositories/preferences_repository.dart';
 import '../src/domain/repositories/trending_repository.dart';
+import '../src/domain/repositories/tv_shows_repository.dart';
 import '../src/domain/repositories/youtube_repository.dart';
 
 Future<void> registerRepositories({
@@ -95,6 +98,15 @@ Future<void> registerRepositories({
     ),
   );
 
+  GetIt.I.registerLazySingleton<TvShowsRepository>(
+    () => TvShowsRepositoryImpl(
+      TvShowsService(
+        GetIt.I.get(),
+        languageService,
+      ),
+    ),
+  );
+
   GetIt.I.registerLazySingleton<PreferencesRepository>(
     () => PreferencesRepositoryImpl(
       GetIt.I.get(),
@@ -125,6 +137,7 @@ class Repositories {
   static GenresRepository get genres => GetIt.I.get();
   static TrendingRepository get trending => GetIt.I.get();
   static MoviesRepository get movies => GetIt.I.get();
+  static TvShowsRepository get tv => GetIt.I.get();
   static PreferencesRepository get preferences => GetIt.I.get();
   static DeepLinksRepository get deepLinks => GetIt.I.get();
   static YoutubeRepository get youtube => GetIt.I.get();

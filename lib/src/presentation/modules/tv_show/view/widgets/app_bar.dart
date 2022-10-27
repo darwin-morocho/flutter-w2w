@@ -6,46 +6,46 @@ import '../../../../../domain/models/media/media.dart';
 import '../../../../global/blocs/favorites/bloc.dart';
 import '../../../../global/blocs/favorites/state/state.dart';
 import '../../../../global/widgets/loader.dart';
-import '../../bloc/movie_bloc.dart';
+import '../../bloc/bloc.dart';
 import '../../bloc/state/state.dart';
 
-class MovieAppBar extends StatelessWidget {
-  const MovieAppBar({super.key});
+class TvShowAppBar extends StatelessWidget {
+  const TvShowAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final MovieBLoC movieBloc = context.watch();
+    final TvShowBloc bloc = context.watch();
     final FavoritesBloc favoritesBloc = context.watch();
 
-    final movieState = movieBloc.state;
+    final state = bloc.state;
     final favoritesState = favoritesBloc.state;
 
     Media? media;
 
-    if (movieState is MovieLoaded && favoritesState is FavoritesLoaded) {
-      final movie = movieState.movie;
+    if (state is TvShowLoaded && favoritesState is FavoritesLoaded) {
+      final show = state.show;
 
       media = Media(
-        id: movie.id,
-        adult: movie.adult,
-        overview: movie.overview,
-        popularity: movie.popularity,
-        title: movie.title,
-        originalTitle: movie.originalTitle,
-        backdropPath: movie.backdropPath,
-        posterPath: movie.posterPath,
-        genreIds: movie.genres.map((e) => e.id).toList(),
-        voteAverage: movie.voteAverage,
-        voteCount: movie.voteCount,
-        firstAirDate: movie.releaseDate,
-        mediaType: MediaType.movie,
+        id: show.id,
+        adult: false,
+        overview: show.overview,
+        popularity: 0,
+        title: show.name,
+        originalTitle: show.name,
+        backdropPath: show.backdropPath,
+        posterPath: show.posterPath,
+        genreIds: show.genres.map((e) => e.id).toList(),
+        voteAverage: show.voteAverage,
+        voteCount: show.voteCount,
+        firstAirDate: show.firstAirDate,
+        mediaType: MediaType.tv,
       );
     }
 
     bool inFavorite = false;
 
     if (media != null) {
-      final index = favoritesBloc.loadedState.movies.indexWhere(
+      final index = favoritesBloc.loadedState.tvShows.indexWhere(
         (e) => e.id == media!.id,
       );
       inFavorite = index != -1;

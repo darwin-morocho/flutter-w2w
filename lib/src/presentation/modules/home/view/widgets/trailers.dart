@@ -73,9 +73,12 @@ class _TrailersState extends State<Trailers> {
                       child: Stack(
                         children: [
                           Positioned.fill(
-                            child: ExtendedImage.network(
-                              trailer.thumbnail,
-                              fit: BoxFit.cover,
+                            child: Hero(
+                              tag: 'trailer-${trailer.videoId}',
+                              child: ExtendedImage.network(
+                                trailer.thumbnail,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                           Positioned.fill(
@@ -97,7 +100,12 @@ class _TrailersState extends State<Trailers> {
                             top: 10,
                             left: 10,
                             right: 10,
-                            child: Text(trailer.title),
+                            child: Text(
+                              trailer.title,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ],
                       ),
