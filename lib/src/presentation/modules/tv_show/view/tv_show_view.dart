@@ -4,10 +4,12 @@ import 'package:provider/provider.dart';
 
 import '../../../../../register/register_repositories.dart';
 import '../../../../domain/models/media/media.dart';
+import '../../../global/build_context_extension.dart';
 import '../../../global/widgets/media/media_banner.dart';
 import '../../../global/widgets/media/media_overview.dart';
 import '../../../global/widgets/scroll_view.dart';
 import '../../../router/router.dart';
+import '../../movie/view/widgets/loader.dart';
 import '../bloc/bloc.dart';
 import '../bloc/state/state.dart';
 import 'widgets/app_bar.dart';
@@ -37,31 +39,50 @@ class TvShowView extends StatelessWidget {
             Positioned.fill(
               child: Consumer<TvShowBloc>(
                 builder: (_, bloc, __) => bloc.state.maybeMap(
-                  loaded: (state) => MyScrollView(
-                    children: [
-                      MediaBanner(
-                        path: state.show.backdropPath,
-                        data: BannerData(
-                          genres: state.show.genres,
-                          name: state.show.name,
-                          voteAverage: state.show.voteAverage,
-                        ),
+                  loaded: (state) {
+                    final isLandscape = context.isLandscape;
+                    final banner = MediaBanner(
+                      path: state.show.backdropPath,
+                      data: BannerData(
+                        genres: state.show.genres,
+                        name: state.show.name,
+                        voteAverage: state.show.voteAverage,
                       ),
-                      MediaOverview(text: state.show.overview),
-                      TvShowSeasons(seasons: state.show.seasons),
-                      const SizedBox(height: 120),
-                    ],
-                  ),
-                  orElse: () => media != null
-                      ? Column(
-                          children: [
-                            MediaBanner(
-                              path: media!.backdropPath,
-                              data: null,
-                            ),
-                          ],
-                        )
-                      : const SizedBox(),
+                    );
+
+                    final details = Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (isLandscape) const SizedBox(height: kToolbarHeight),
+                        MediaOverview(text: state.show.overview),
+                        TvShowSeasons(seasons: state.show.seasons),
+                        const SizedBox(height: 120),
+                      ],
+                    );
+
+                    if (!isLandscape) {
+                      return MyScrollView(
+                        children: [
+                          banner,
+                          details,
+                        ],
+                      );
+                    }
+
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: banner,
+                        ),
+                        Expanded(
+                          child: MyScrollView(
+                            children: [details],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  orElse: () => MovieLoader(media: media),
                 ),
               ),
             ),
