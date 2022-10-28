@@ -10,7 +10,7 @@ class Env {
   static const youtubeChannelId = String.fromEnvironment('YOUTUBE_CHANNEL_ID');
 
   static get youtubeApiKey {
-    if (isIOS) {
+    if (isIOS || isMacOS) {
       return const String.fromEnvironment('YOUTUBE_API_KEY_IOS');
     }
     return const String.fromEnvironment('YOUTUBE_API_KEY');

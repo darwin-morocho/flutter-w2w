@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../register/register_repositories.dart';
 import '../../../global/blocs/app_configuration/app_configuration_bloc.dart';
+import '../../../global/widgets/scroll_view.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/state/home_state.dart';
 import 'widgets/trailers.dart';
@@ -23,7 +24,7 @@ class HomeView extends StatelessWidget {
       )..init(),
       child: Scaffold(
         body: SafeArea(
-          child: Column(
+          child: MyScrollView(
             children: [
               const SizedBox(height: 15),
               SingleChildScrollView(
@@ -51,21 +52,19 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 15),
-              Expanded(
-                child: Consumer<HomeBLoC>(
-                  builder: (_, bloc, __) => bloc.state.map(
-                    loading: (_) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    failed: (_) => Container(),
-                    loaded: (state) => Column(
-                      children: [
-                        TrendingList(
-                          trendingList: state.trendingList,
-                        ),
-                        Trailers(trailers: state.trailers),
-                      ],
-                    ),
+              Consumer<HomeBLoC>(
+                builder: (_, bloc, __) => bloc.state.map(
+                  loading: (_) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  failed: (_) => Container(),
+                  loaded: (state) => Column(
+                    children: [
+                      TrendingList(
+                        trendingList: state.trendingList,
+                      ),
+                      Trailers(trailers: state.trailers),
+                    ],
                   ),
                 ),
               ),

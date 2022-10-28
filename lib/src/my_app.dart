@@ -3,8 +3,10 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../generated/translations.g.dart';
 import 'presentation/global/app_colors.dart';
 import 'presentation/global/blocs/app_configuration/app_configuration_bloc.dart';
 import 'presentation/global/blocs/app_theme/bloc.dart';
@@ -69,6 +71,9 @@ class _MyAppState extends State<MyApp> with RouterMixin, AfterFirstLayout {
                   debugShowCheckedModeBanner: false,
                   theme: getTheme(darkMode),
                   routerConfig: router,
+                  locale: TranslationProvider.of(context).flutterLocale,
+                  supportedLocales: LocaleSettings.supportedLocales,
+                  localizationsDelegates: GlobalMaterialLocalizations.delegates,
                 ),
               )
             : const SplashView(),

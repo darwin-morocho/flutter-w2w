@@ -11,7 +11,7 @@ namespaces: true
 translate_var: texts
 enum_name: AppLocale
 translation_class_visibility: private
-key_case: snake
+key_case: camel
 key_map_case: camel
-param_case: pascal
+param_case: camel
 string_interpolation: double_braces

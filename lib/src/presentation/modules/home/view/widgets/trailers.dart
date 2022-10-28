@@ -16,11 +16,25 @@ class Trailers extends StatefulWidget {
 }
 
 class _TrailersState extends State<Trailers> {
-  final _controller = PageController();
+  PageController? _controller;
+
+  late double _width;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _controller?.dispose();
+    _width = MediaQuery.of(context).size.width;
+
+    _controller = PageController(
+      viewportFraction: _width >= 640 ? 0.4 : 1,
+    );
+  }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
@@ -45,9 +59,10 @@ class _TrailersState extends State<Trailers> {
             ),
           ),
           AspectRatio(
-            aspectRatio: 16 / 8,
+            aspectRatio: _width >= 640 ? 14 / 3 : 16 / 8,
             child: PageView.builder(
               controller: _controller,
+              padEnds: false,
               itemBuilder: (_, index) {
                 final trailer = widget.trailers[index];
                 return Padding(
@@ -117,12 +132,12 @@ class _TrailersState extends State<Trailers> {
             ),
           ),
           AnimatedBuilder(
-            animation: _controller,
+            animation: _controller!,
             builder: (_, __) => Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  '${(_controller.page ?? 0).toInt() + 1}/50',
+                  '${(_controller!.page ?? 0).toInt() + 1}/50',
                   textAlign: TextAlign.center,
                 ),
               ),

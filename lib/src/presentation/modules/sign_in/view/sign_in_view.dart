@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../../generated/translations.g.dart';
 import '../../../../../register/register_repositories.dart';
 import '../../../global/blocs/favorites/bloc.dart';
 import '../../../router/router.dart';
@@ -48,18 +50,18 @@ class SignInView extends StatelessWidget {
                               TextField(
                                 onChanged: bloc.onUsernameChanged,
                                 textInputAction: TextInputAction.next,
-                                decoration: const InputDecoration(
-                                  label: Text('username'),
-                                  border: OutlineInputBorder(),
+                                decoration: InputDecoration(
+                                  label: Text(texts.signIn.username),
+                                  border: const OutlineInputBorder(),
                                 ),
                               ),
                               const SizedBox(height: 20),
                               TextField(
                                 onChanged: bloc.onPasswordChanged,
                                 textInputAction: TextInputAction.send,
-                                decoration: const InputDecoration(
-                                  label: Text('password'),
-                                  border: OutlineInputBorder(),
+                                decoration: InputDecoration(
+                                  label: Text(texts.signIn.password),
+                                  border: const OutlineInputBorder(),
                                 ),
                                 onSubmitted: (_) {
                                   if (allowSubmit) {
@@ -82,9 +84,9 @@ class SignInView extends StatelessWidget {
                                           height: 30,
                                           child: CircularProgressIndicator(),
                                         )
-                                      : const Text(
-                                          'SIGN IN',
-                                          style: TextStyle(
+                                      : Text(
+                                          texts.signIn.signIn,
+                                          style: const TextStyle(
                                             color: Colors.white,
                                           ),
                                         ),
@@ -94,11 +96,15 @@ class SignInView extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text('Not a member?'),
+                                  Text(texts.signIn.notMember),
                                   TextButton(
-                                    onPressed: () {},
-                                    child: const Text(
-                                      'Register Now',
+                                    onPressed: () {
+                                      launchUrlString(
+                                        'https://www.themoviedb.org/signup',
+                                      );
+                                    },
+                                    child: Text(
+                                      texts.signIn.registerNow,
                                     ),
                                   ),
                                 ],
