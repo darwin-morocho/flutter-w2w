@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../generated/assets.gen.dart';
+import '../../../../../generated/translations.g.dart';
 import '../../../../core/env.dart';
 import '../../../../domain/models/enums.dart';
 import '../../../../domain/models/genre/genre.dart';
@@ -32,8 +33,8 @@ class FavoritesView extends StatelessWidget {
               width: 220,
             ),
             const SizedBox(height: 10),
-            const Text(
-              'To show this section, you need to sign in',
+            Text(
+              texts.favorites.signInRequired.message,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
@@ -43,11 +44,11 @@ class FavoritesView extends StatelessWidget {
                   GoRouter.of(context),
                 ),
               ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Sign In',
-                  style: TextStyle(color: Colors.white),
+                  texts.favorites.signInRequired.button,
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ),

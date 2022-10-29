@@ -2,6 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../../../generated/translations.g.dart';
 import '../../../../../core/platform.dart';
 import '../../../../../domain/models/trailer/trailer.dart';
 import '../../../../global/app_colors.dart';
@@ -48,11 +49,11 @@ class _TrailersState extends State<Trailers> {
             width: double.infinity,
             height: 20,
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 20, bottom: 10),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, bottom: 10),
             child: Text(
-              'Coming Soon',
-              style: TextStyle(
+              texts.home.comingSoon,
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

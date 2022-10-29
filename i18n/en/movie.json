@@ -1,0 +1,7 @@
+{
+    "cast": "Cast",
+    "showAll": "Show All",
+    "synopsis": "Synopsis",
+    "recommendations": "Recommendations",
+    "rate(rich)":"{{value}} of 10"
+}

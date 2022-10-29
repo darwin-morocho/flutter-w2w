@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../generated/translations.g.dart';
+
 class MediaOverview extends StatelessWidget {
   const MediaOverview({
     super.key,
@@ -16,9 +18,9 @@ class MediaOverview extends StatelessWidget {
           padding: const EdgeInsets.all(20).copyWith(
             bottom: 0,
           ),
-          child: const Text(
-            'Synopsis',
-            style: TextStyle(
+          child: Text(
+            texts.movie.synopsis,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),

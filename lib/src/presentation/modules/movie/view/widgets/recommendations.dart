@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path/path.dart' as path;
 
+import '../../../../../../generated/translations.g.dart';
 import '../../../../../core/env.dart';
 import '../../../../../domain/models/media/media.dart';
 import '../../../../router/router.dart';
@@ -22,9 +23,9 @@ class MovieRecomendations extends StatelessWidget {
             bottom: 5,
             top: 10,
           ),
-          child: const Text(
-            'Recommendations',
-            style: TextStyle(
+          child: Text(
+            texts.movie.recommendations,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),

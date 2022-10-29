@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:provider/provider.dart';
 
@@ -44,9 +45,13 @@ void main() async {
           ),
         ),
         ChangeNotifierProvider(
-          create: (_) => AppThemeBloc(
-            Repositories.preferences,
-          ),
+          create: (context) {
+            Brightness brightness = SchedulerBinding.instance.window.platformBrightness;
+            return AppThemeBloc(
+              Repositories.preferences,
+              brightness == Brightness.dark,
+            );
+          },
         ),
       ],
       child: TranslationProvider(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path/path.dart';
 
+import '../../../../../../generated/translations.g.dart';
 import '../../../../../core/env.dart';
 import '../../../../../domain/models/enums.dart';
 import '../../../../../domain/models/media/media.dart';
@@ -20,11 +21,11 @@ class TrendingList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 20, bottom: 10),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, bottom: 10),
           child: Text(
-            'Trending Now',
-            style: TextStyle(
+            texts.home.trendingNow,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),

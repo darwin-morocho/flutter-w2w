@@ -61,14 +61,15 @@ ThemeData getTheme(bool darkMode) {
   return baseTheme.copyWith(
     brightness: Brightness.light,
     inputDecorationTheme: const InputDecorationTheme(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: AppColors.dark,
-          ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: AppColors.dark,
         ),
-        labelStyle: TextStyle(
-          color: AppColors.dark700,
-        )),
+      ),
+      labelStyle: TextStyle(
+        color: AppColors.dark700,
+      ),
+    ),
     textTheme: GoogleFonts.nunitoSansTextTheme().copyWith(
       bodyText1: const TextStyle(color: AppColors.dark),
       bodyText2: const TextStyle(color: AppColors.dark),

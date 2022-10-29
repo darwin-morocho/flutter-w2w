@@ -2,6 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../../../../../../generated/translations.g.dart';
 import '../../../../../core/env.dart';
 import '../../../../../domain/models/performer/performer.dart';
 import '../../../../global/app_colors.dart';
@@ -24,9 +25,9 @@ class MovieCast extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Text(
-                'Cast',
-                style: TextStyle(
+              Text(
+                texts.movie.cast,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -34,9 +35,9 @@ class MovieCast extends StatelessWidget {
               const Spacer(),
               TextButton(
                 onPressed: () => _showAllCast(context, cast),
-                child: const Text(
-                  'Show all',
-                  style: TextStyle(
+                child: Text(
+                  texts.movie.showAll,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),

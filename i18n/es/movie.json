@@ -1,0 +1,7 @@
+{
+    "cast": "Reparto",
+    "showAll": "Mostrar todo",
+    "synopsis": "Sinopsis",
+    "recommendations": "Recomendaciones",
+    "rate(rich)":"{{value}} de 10"
+}

@@ -1,6 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../generated/translations.g.dart';
 import '../../../../core/env.dart';
 import '../../../../domain/models/genre/genre.dart';
 import '../../app_colors.dart';
@@ -126,20 +127,17 @@ class MediaBanner extends StatelessWidget {
                                   ),
                                 ),
                                 Text.rich(
-                                  TextSpan(
-                                    text: data!.voteAverage.toStringAsFixed(1),
-                                    children: const [
-                                      TextSpan(
-                                        text: '\n de 10',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ),
+                                  texts.movie.rate(
+                                    value: TextSpan(
+                                      text: '${data!.voteAverage.toStringAsFixed(1)}\n',
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        height: 1.1,
                                       ),
-                                    ],
+                                    ),
                                   ),
                                   style: const TextStyle(
-                                    fontSize: 24,
-                                    height: 1.1,
+                                    fontSize: 12,
                                     color: Colors.white,
                                   ),
                                   textScaleFactor: 1,
