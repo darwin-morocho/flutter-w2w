@@ -1,8 +1,23 @@
-import 'package:flutter/foundation.dart';
+import 'dart:ui';
 
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_meedu/meedu.dart';
+
+import '../../../../../register/register_repositories.dart';
 import '../../../../domain/repositories/preferences_repository.dart';
 
-class AppThemeBloc extends ChangeNotifier {
+final appThemeProvider = SimpleProvider(
+  (_) {
+    Brightness brightness = SchedulerBinding.instance.window.platformBrightness;
+    return AppThemeBloc(
+      Repositories.preferences,
+      brightness == Brightness.dark,
+    );
+  },
+  autoDispose: false,
+);
+
+class AppThemeBloc extends SimpleNotifier {
   AppThemeBloc(
     this._preferencesRepository,
     this._systemDarkMode,
@@ -15,6 +30,6 @@ class AppThemeBloc extends ChangeNotifier {
 
   Future<void> setDarkMode(bool enabled) async {
     await _preferencesRepository.setDarkMode(enabled);
-    notifyListeners();
+    notify();
   }
 }

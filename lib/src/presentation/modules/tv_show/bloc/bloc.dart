@@ -1,6 +1,15 @@
+import 'package:flutter_meedu/meedu.dart';
+
+import '../../../../../register/register_repositories.dart';
 import '../../../../domain/repositories/tv_shows_repository.dart';
-import '../../../global/notifiers/state_notifier.dart';
 import 'state/state.dart';
+
+final tvShowProvider = StateProvider.withTag(
+  (ref) => TvShowBloc(
+    TvShowLoading(ref.arguments),
+    tvShowsRepository: Repositories.tv,
+  )..init(),
+);
 
 class TvShowBloc extends StateNotifier<TvShowState> {
   TvShowBloc(

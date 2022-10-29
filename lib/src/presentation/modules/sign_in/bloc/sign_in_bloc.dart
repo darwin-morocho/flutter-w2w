@@ -1,11 +1,19 @@
+import 'package:flutter_meedu/meedu.dart';
+
+import '../../../../../register/register_repositories.dart';
 import '../../../../core/either/either.dart';
 import '../../../../domain/failures/http_request/http_request_failure.dart';
 import '../../../../domain/models/user/user.dart';
 import '../../../../domain/repositories/auth_repository.dart';
 import '../../../global/blocs/session/session_bloc.dart';
-import '../../../global/notifiers/state_notifier.dart';
 import 'state/sign_in_state.dart';
 
+final signInProvider = StateProvider<SignInBLoC, SignInState>(
+  (_) => SignInBLoC(
+    authRepository: Repositories.auth,
+    sessionBLoC: sessionProvider.read,
+  ),
+);
 
 class SignInBLoC extends StateNotifier<SignInState> {
   SignInBLoC({
@@ -49,7 +57,7 @@ class SignInBLoC extends StateNotifier<SignInState> {
       right: (user) {
         sessionBLoC.setUser(
           user,
-          notify: false,
+          notifyListeners: false,
         );
       },
     );

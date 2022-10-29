@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_meedu/ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../router/router.dart';
 import '../app_colors.dart';
@@ -11,7 +11,6 @@ import '../app_icons.dart';
 import '../blocs/app_theme/bloc.dart';
 import '../blocs/favorites/bloc.dart';
 import '../blocs/session/session_bloc.dart';
-import '../mixins/after_first_layout.dart';
 
 const _paths = [
   Routes.home,
@@ -31,7 +30,7 @@ class MainScaffold extends StatefulWidget {
   State<MainScaffold> createState() => _MainScaffoldState();
 }
 
-class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
+class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayoutMixin {
   String get _path => '/${Uri.parse(GoRouter.of(context).location).pathSegments.first}';
 
   @override
@@ -47,10 +46,9 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
   }
 
   @override
-  FutureOr<void> onAfterFirstLayout() {
-    final SessionBLoC sessionBLoC = context.read();
-    if (sessionBLoC.user != null) {
-      final FavoritesBloc favoritesBloc = context.read();
+  FutureOr<void> afterFirstLayout(_) {
+    if (sessionProvider.read.user != null) {
+      final FavoritesBloc favoritesBloc = favoritesProvider.read;
       favoritesBloc.state.whenOrNull(
         mustBeInitialized: () {
           favoritesBloc.init();
@@ -71,7 +69,7 @@ class _MainScaffoldState extends State<MainScaffold> with AfterFirstLayout {
   @override
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).viewPadding.bottom;
-    final darkMode = context.watch<AppThemeBloc>().darkMode;
+    final darkMode = appThemeProvider.read.darkMode;
     final tabBarColor = darkMode ? AppColors.dark700 : const Color(0xfff0f0f0);
 
     return Scaffold(

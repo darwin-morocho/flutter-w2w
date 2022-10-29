@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meedu/ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
-import '../../../../../register/register_repositories.dart';
 import '../../../../domain/models/media/media.dart';
-import '../../../global/build_context_extension.dart';
+import '../../../global/mixins/init_mixin.dart';
+import '../../../global/provider/tag.dart';
 import '../../../global/widgets/media/media_banner.dart';
 import '../../../global/widgets/media/media_overview.dart';
 import '../../../global/widgets/scroll_view.dart';
 import '../../../router/router.dart';
 import '../../movie/view/widgets/loader.dart';
 import '../bloc/bloc.dart';
-import '../bloc/state/state.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/seasons.dart';
 
-class TvShowView extends StatelessWidget {
+class TvShowView extends StatefulWidget {
   const TvShowView({
     super.key,
     required this.id,
@@ -26,19 +25,60 @@ class TvShowView extends StatelessWidget {
   final Media? media;
 
   @override
+  State<TvShowView> createState() => _TvShowViewState();
+
+  static GoRoute get route {
+    return GoRoute(
+      path: Routes.tv.path,
+      builder: (_, state) {
+        final id = int.parse(state.params['id']!);
+        final extra = state.extra;
+        Media? media;
+        if (extra is Media) {
+          media = extra;
+        }
+        final tag = 'tv-$id';
+        tvShowProvider.find(tag).setArguments(id);
+        return TagProvider(
+          tag: tag,
+          child: TvShowView(id: id, media: media),
+        );
+      },
+    );
+  }
+}
+
+class _TvShowViewState extends State<TvShowView> with InitializedMixin {
+  late final bool _mustPop;
+  late final String _tagName;
+
+  @override
+  void initialized() {
+    _tagName = TagProvider.of(context);
+    _mustPop = !tvShowProvider.find(_tagName).mounted;
+  }
+
+  @override
+  void dispose() {
+    if (_mustPop) {
+      tvShowProvider.find(_tagName).dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => TvShowBloc(
-        TvShowLoading(id),
-        tvShowsRepository: Repositories.tv,
-      )..init(),
-      child: Container(
-        color: Theme.of(context).backgroundColor,
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Consumer<TvShowBloc>(
-                builder: (_, bloc, __) => bloc.state.maybeMap(
+    return Container(
+      color: Theme.of(context).backgroundColor,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Consumer(
+              builder: (_, ref, __) {
+                final bloc = ref.watch(
+                  tvShowProvider.find(_tagName),
+                );
+                return bloc.state.maybeMap(
                   loaded: (state) {
                     final isLandscape = context.isLandscape;
                     final banner = MediaBanner(
@@ -82,29 +122,14 @@ class TvShowView extends StatelessWidget {
                       ],
                     );
                   },
-                  orElse: () => MovieLoader(media: media),
-                ),
-              ),
+                  orElse: () => MovieLoader(media: widget.media),
+                );
+              },
             ),
-            const TvShowAppBar(),
-          ],
-        ),
+          ),
+          const TvShowAppBar(),
+        ],
       ),
-    );
-  }
-
-  static GoRoute get route {
-    return GoRoute(
-      path: Routes.tv.path,
-      builder: (_, state) {
-        final id = state.params['id']!;
-        final extra = state.extra;
-        Media? media;
-        if (extra is Media) {
-          media = extra;
-        }
-        return TvShowView(id: int.parse(id), media: media);
-      },
     );
   }
 }

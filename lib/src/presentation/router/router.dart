@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meedu/ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../register/register_repositories.dart';
 import '../../core/platform.dart';
@@ -21,13 +21,12 @@ final shellNavigatorKey = GlobalKey<NavigatorState>();
 mixin RouterMixin on State<MyApp> {
   GoRouter? _router;
 
-  GoRouter get router {
+  GoRouter get goRouter {
     if (_router != null) {
       return _router!;
     }
 
-    final AppConfigurationBLoC appConfiguration = context.read();
-    final initialLocation = appConfiguration.genresConfig.when(
+    final initialLocation = appConfigurationProvider.read.genresConfig.when(
       left: (failure) {
         return failure.maybeWhen(
           network: () => Routes.offline,
@@ -50,6 +49,9 @@ mixin RouterMixin on State<MyApp> {
     );
     _router = GoRouter(
       navigatorKey: rootNavigatorKey,
+      observers: [
+        router.observer,
+      ],
       routes: [
         ShellRoute(
           navigatorKey: shellNavigatorKey,

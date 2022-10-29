@@ -1,11 +1,19 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter_meedu/meedu.dart';
 
+import '../../../../../register/register_repositories.dart';
 import '../../../../core/either/either.dart';
 import '../../../../domain/failures/http_request/http_request_failure.dart';
 import '../../../../domain/models/genre/genre.dart';
 import '../../../../domain/repositories/genres_repository.dart';
 
-class AppConfigurationBLoC extends ChangeNotifier {
+final appConfigurationProvider = SimpleProvider(
+  (_) => AppConfigurationBLoC(
+    genresRepository: Repositories.genres,
+  ),
+  autoDispose: false,
+);
+
+class AppConfigurationBLoC extends SimpleNotifier {
   AppConfigurationBLoC({
     required this.genresRepository,
   });
@@ -23,6 +31,6 @@ class AppConfigurationBLoC extends ChangeNotifier {
   Future<void> init() async {
     _genresConfig = await genresRepository.getGenres();
     _initialized = true;
-    notifyListeners();
+    notify();
   }
 }

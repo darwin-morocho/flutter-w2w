@@ -1,8 +1,18 @@
+import 'package:flutter_meedu/meedu.dart';
+
+import '../../../../../register/register_repositories.dart';
 import '../../../../domain/models/enums.dart';
 import '../../../../domain/models/media/media.dart';
 import '../../../../domain/repositories/account_repository.dart';
-import '../../notifiers/state_notifier.dart';
 import 'state/state.dart';
+
+final favoritesProvider = StateProvider<FavoritesBloc, FavoritesState>(
+  (_) => FavoritesBloc(
+    const FavoritesMustBeInitialized(),
+    accountRepository: Repositories.account,
+  ),
+  autoDispose: false,
+);
 
 class FavoritesBloc extends StateNotifier<FavoritesState> {
   FavoritesBloc(

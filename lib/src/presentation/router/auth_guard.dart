@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../global/blocs/session/session_bloc.dart';
 import 'router.dart';
 
 String? signInRedirect(BuildContext context, GoRouterState state) {
-  final user = context.read<SessionBLoC>().user;
+  final user = sessionProvider.read.user;
   if (user != null) {
     return Routes.home;
   }
@@ -14,9 +13,7 @@ String? signInRedirect(BuildContext context, GoRouterState state) {
 }
 
 Future<String?> authGuard(BuildContext context, GoRouterState state) async {
-  final SessionBLoC session = context.read();
-
-  if (session.user == null) {
+  if (sessionProvider.read.user == null) {
     Uri uri = Uri.parse(Routes.signIn.path);
     uri = uri.replace(
       queryParameters: {

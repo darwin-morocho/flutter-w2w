@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meedu/ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../generated/translations.g.dart';
-import '../../../../../register/register_repositories.dart';
 import '../../../global/app_colors.dart';
 import '../../../global/blocs/favorites/bloc.dart';
-import '../../../global/build_context_extension.dart';
 import '../../../router/router.dart';
 import '../bloc/sign_in_bloc.dart';
 
@@ -20,13 +18,9 @@ class SignInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => SignInBLoC(
-        authRepository: Repositories.auth,
-        sessionBLoC: context.read(),
-      ),
-      builder: (context, __) {
-        final SignInBLoC bloc = context.watch();
+    return Consumer(
+      builder: (context, ref, __) {
+        final SignInBLoC bloc = ref.watch(signInProvider);
         final state = bloc.state;
 
         final allowSubmit = state.username.isNotEmpty && state.password.isNotEmpty;
@@ -137,12 +131,12 @@ class SignInView extends StatelessWidget {
   }
 
   Future<void> _submit(BuildContext context) async {
-    final SignInBLoC bloc = context.read();
-    final FavoritesBloc favoritesBloc = context.read();
+    final SignInBLoC bloc = signInProvider.read;
+    final FavoritesBloc favoritesBloc = favoritesProvider.read;
 
     final result = await bloc.submit();
 
-    if (bloc.mounted) {
+    if (!bloc.disposed) {
       result.when(
         left: (failure) {},
         right: (user) {

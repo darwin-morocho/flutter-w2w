@@ -1,5 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter_meedu/meedu.dart';
 
+import '../../../../../register/register_repositories.dart';
 import '../../../../domain/models/user/user.dart';
 import '../../../../domain/repositories/account_repository.dart';
 import '../../../../domain/repositories/auth_repository.dart';
@@ -8,7 +9,15 @@ enum InitSessionStatus {
   signedIn,
 }
 
-class SessionBLoC extends ChangeNotifier {
+final sessionProvider = SimpleProvider(
+  (_) => SessionBLoC(
+    authRepository: Repositories.auth,
+    accountRepository: Repositories.account,
+  ),
+  autoDispose: false,
+);
+
+class SessionBLoC extends SimpleNotifier {
   SessionBLoC({
     required this.authRepository,
     required this.accountRepository,
@@ -32,21 +41,21 @@ class SessionBLoC extends ChangeNotifier {
       final result = await accountRepository.profile;
       result.whenOrNull(
         right: (user) {
-          setUser(user, notify: false);
+          setUser(user, notifyListeners: false);
         },
       );
     }
     _initialized = true;
-    notifyListeners();
+    notify();
   }
 
   void setUser(
     User? user, {
-    bool notify = true,
+    bool notifyListeners = true,
   }) {
     _user = user;
-    if (notify) {
-      notifyListeners();
+    if (notifyListeners) {
+      notify();
     }
   }
 

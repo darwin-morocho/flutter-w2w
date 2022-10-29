@@ -1,8 +1,8 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_meedu/ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path/path.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../../generated/assets.gen.dart';
 import '../../../../../generated/translations.g.dart';
@@ -20,10 +20,9 @@ class FavoritesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SessionBLoC sessionBLoC = context.read();
     final backgroundColor = Theme.of(context).scaffoldBackgroundColor;
 
-    if (sessionBLoC.user == null) {
+    if (sessionProvider.read.user == null) {
       return Container(
         color: backgroundColor,
         child: Column(
@@ -57,7 +56,7 @@ class FavoritesView extends StatelessWidget {
       );
     }
 
-    final genres = context.read<AppConfigurationBLoC>().genres;
+    final genres = appConfigurationProvider.read.genres;
 
     return Container(
       color: backgroundColor,
@@ -66,40 +65,43 @@ class FavoritesView extends StatelessWidget {
         bottom: false,
         child: DefaultTabController(
           length: 2,
-          child: Consumer<FavoritesBloc>(
-            builder: (_, bloc, __) => bloc.state.maybeMap(
-              loaded: (state) => Column(
-                children: [
-                  const TabBar(
-                    tabs: [
-                      Tab(
-                        text: 'Movies',
-                      ),
-                      Tab(
-                        text: 'TV',
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      children: [
-                        _MediaList(
-                          items: state.movies,
-                          genres: genres,
+          child: Consumer(
+            builder: (_, ref, __) {
+              final bloc = ref.watch(favoritesProvider);
+              return bloc.state.maybeMap(
+                loaded: (state) => Column(
+                  children: [
+                    const TabBar(
+                      tabs: [
+                        Tab(
+                          text: 'Movies',
                         ),
-                        _MediaList(
-                          items: state.tvShows,
-                          genres: genres,
+                        Tab(
+                          text: 'TV',
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              orElse: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          _MediaList(
+                            items: state.movies,
+                            genres: genres,
+                          ),
+                          _MediaList(
+                            items: state.tvShows,
+                            genres: genres,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                orElse: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
           ),
         ),
       ),

@@ -1,7 +1,17 @@
+import 'package:flutter_meedu/meedu.dart';
+
+import '../../../../../register/register_repositories.dart';
 import '../../../../domain/repositories/trending_repository.dart';
 import '../../../../domain/repositories/youtube_repository.dart';
-import '../../../global/notifiers/state_notifier.dart';
 import 'state/home_state.dart';
+
+final homeProvider = StateProvider<HomeBLoC, HomeState>(
+  (_) => HomeBLoC(
+    const HomeState.loading(),
+    trendingRepository: Repositories.trending,
+    youtubeRepository: Repositories.youtube,
+  )..init(),
+);
 
 class HomeBLoC extends StateNotifier<HomeState> {
   HomeBLoC(

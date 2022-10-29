@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_meedu/ui.dart';
 
 import '../../../../../domain/models/enums.dart';
 import '../../../../../domain/models/media/media.dart';
 import '../../../../global/blocs/favorites/bloc.dart';
 import '../../../../global/blocs/favorites/state/state.dart';
+import '../../../../global/provider/tag.dart';
 import '../../../../global/widgets/loader.dart';
 import '../../bloc/movie_bloc.dart';
 import '../../bloc/state/state.dart';
 
-class MovieAppBar extends StatelessWidget {
-  const MovieAppBar({super.key});
+class MovieAppBar extends ConsumerWidget {
+  const MovieAppBar({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final MovieBLoC movieBloc = context.watch();
-    final FavoritesBloc favoritesBloc = context.watch();
+  Widget build(BuildContext context, ref) {
+    final MovieBLoC movieBloc = ref.watch(
+      movieProvider.find(
+        TagProvider.of(context),
+      ),
+    );
+    final FavoritesBloc favoritesBloc = ref.watch(favoritesProvider);
 
     final movieState = movieBloc.state;
     final favoritesState = favoritesBloc.state;
@@ -97,8 +104,8 @@ class MovieAppBar extends StatelessWidget {
   }) async {
     final loader = Loader.of(context);
     loader.show();
-    final FavoritesBloc favoritesBloc = context.read();
-    final future = inFavorite ? favoritesBloc.remove(media) : favoritesBloc.add(media);
+    final bloc = favoritesProvider.read;
+    final future = inFavorite ? bloc.remove(media) : bloc.add(media);
     final saved = await future;
     loader.dismiss();
   }

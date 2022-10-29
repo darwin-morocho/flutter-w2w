@@ -1,6 +1,15 @@
+import 'package:flutter_meedu/meedu.dart';
+
+import '../../../../../register/register_repositories.dart';
 import '../../../../domain/repositories/movies_repository.dart';
-import '../../../global/notifiers/state_notifier.dart';
 import 'state/state.dart';
+
+final movieProvider = StateProvider.withTag(
+  (ref) => MovieBLoC(
+    MovieLoading(ref.arguments),
+    moviesRepository: Repositories.movies,
+  )..init(),
+);
 
 class MovieBLoC extends StateNotifier<MovieState> {
   MovieBLoC(

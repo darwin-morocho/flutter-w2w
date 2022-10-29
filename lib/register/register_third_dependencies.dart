@@ -1,7 +1,7 @@
 import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_meedu/meedu.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../src/core/env.dart';
@@ -15,19 +15,19 @@ Future<void> registerThirdDependencies() async {
 
   final preferences = await SharedPreferences.getInstance();
 
-  GetIt.I.registerLazySingleton(
+  Get.lazyPut(
     () => httpClient,
   );
 
-  GetIt.I.registerLazySingleton(
+  Get.lazyPut(
     () => const FlutterSecureStorage(),
   );
 
-  GetIt.I.registerLazySingleton(
+  Get.lazyPut(
     () => preferences,
   );
 
-  GetIt.I.registerLazySingleton<AppLinks>(
+  Get.lazyPut<AppLinks>(
     () => kIsWeb ? MockAppLinks() : AppLinks(),
   );
 }

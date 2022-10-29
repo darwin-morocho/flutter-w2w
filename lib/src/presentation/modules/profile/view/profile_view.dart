@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_meedu/ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../../generated/translations.g.dart';
 import '../../../../../register/register_repositories.dart';
@@ -9,18 +9,24 @@ import '../../../global/app_icons.dart';
 import '../../../global/blocs/app_theme/bloc.dart';
 import '../../../global/blocs/favorites/bloc.dart';
 import '../../../global/blocs/session/session_bloc.dart';
-import '../../../global/build_context_extension.dart';
 import '../../../router/router.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends ConsumerWidget {
   const ProfileView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final SessionBLoC sessionBLoC = context.watch();
+  Widget build(BuildContext context, ref) {
+    final SessionBLoC sessionBLoC = ref.watch(
+      sessionProvider.select(
+        (_) => _.user != null,
+        booleanCallback: true,
+      ),
+    );
     final user = sessionBLoC.user;
 
-    final AppThemeBloc themeBloc = context.watch();
+    final AppThemeBloc themeBloc = ref.watch(
+      appThemeProvider,
+    );
 
     if (user != null) {
       return Container(
@@ -31,10 +37,10 @@ class ProfileView extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () async {
-                    FavoritesBloc favoritesBloc = context.read();
+                    FavoritesBloc favoritesBloc = favoritesProvider.read;
                     await Repositories.auth.signOut();
                     favoritesBloc.reset();
-                    sessionBLoC.setUser(null, notify: false);
+                    sessionBLoC.setUser(null);
                     context.go(Routes.home);
                   },
                   icon: const Icon(

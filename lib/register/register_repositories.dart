@@ -1,5 +1,5 @@
 import 'package:app_links/app_links.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_meedu/meedu.dart';
 
 import '../src/data/repositories_implementation/account_repository_impl.dart';
 import '../src/data/repositories_implementation/auth_repository_impl.dart';
@@ -35,25 +35,25 @@ Future<void> registerRepositories({
   required String defaultLanguageCode,
 }) async {
   final sessionService = SessionService(
-    GetIt.I.get(),
+    Get.find(),
   );
   final authService = AuthService(
-    GetIt.I.get(),
+    Get.find(),
   );
 
-  final AppLinks appLinks = GetIt.I.get();
+  final AppLinks appLinks = Get.find();
 
   final initialLink = await appLinks.getInitialAppLink();
 
   final languageService = LanguageService(defaultLanguageCode);
 
   final accountService = AccountService(
-    GetIt.I.get(),
+    Get.find(),
     sessionService,
     languageService,
   );
 
-  GetIt.I.registerLazySingleton<AuthRepository>(
+  Get.lazyPut<AuthRepository>(
     () => AuthRepositoryImpl(
       sessionService,
       authService,
@@ -61,68 +61,68 @@ Future<void> registerRepositories({
     ),
   );
 
-  GetIt.I.registerLazySingleton<AccountRepository>(
+  Get.lazyPut<AccountRepository>(
     () => AccountRepositoryImpl(accountService),
   );
 
-  GetIt.I.registerLazySingleton<LanguageRepository>(
+  Get.lazyPut<LanguageRepository>(
     () => LanguageRepositoryImpl(
       languageService,
     ),
   );
 
-  GetIt.I.registerLazySingleton<GenresRepository>(
+  Get.lazyPut<GenresRepository>(
     () => GenresRepositoryImpl(
       GenresService(
-        GetIt.I.get(),
+        Get.find(),
         languageService,
       ),
     ),
   );
 
-  GetIt.I.registerLazySingleton<TrendingRepository>(
+  Get.lazyPut<TrendingRepository>(
     () => TrendingRepositoryImpl(
       TrendingService(
-        GetIt.I.get(),
+        Get.find(),
         languageService,
       ),
     ),
   );
 
-  GetIt.I.registerLazySingleton<MoviesRepository>(
+  Get.lazyPut<MoviesRepository>(
     () => MoviesRepositoryImpl(
       MoviesService(
-        GetIt.I.get(),
+        Get.find(),
         languageService,
       ),
     ),
   );
 
-  GetIt.I.registerLazySingleton<TvShowsRepository>(
+  Get.lazyPut<TvShowsRepository>(
     () => TvShowsRepositoryImpl(
       TvShowsService(
-        GetIt.I.get(),
+        Get.find(),
         languageService,
       ),
     ),
   );
 
-  GetIt.I.registerLazySingleton<PreferencesRepository>(
+  Get.lazyPut<PreferencesRepository>(
     () => PreferencesRepositoryImpl(
-      GetIt.I.get(),
+      Get.find(),
     ),
   );
 
-  GetIt.I.registerLazySingleton<DeepLinksRepository>(
+  Get.lazyPut<DeepLinksRepository>(
     () => DeepLinksRepositoryImpl(
       initialLink: initialLink,
     ),
   );
 
-  GetIt.I.registerLazySingleton<YoutubeRepository>(
+  Get.lazyPut<YoutubeRepository>(
     () => YoutubeRepositoryImpl(
       YoutubeService(
-        GetIt.I.get(),
+        Get.find(),
       ),
     ),
   );
@@ -131,14 +131,14 @@ Future<void> registerRepositories({
 class Repositories {
   Repositories._();
 
-  static AuthRepository get auth => GetIt.I.get();
-  static AccountRepository get account => GetIt.I.get();
-  static LanguageRepository get language => GetIt.I.get();
-  static GenresRepository get genres => GetIt.I.get();
-  static TrendingRepository get trending => GetIt.I.get();
-  static MoviesRepository get movies => GetIt.I.get();
-  static TvShowsRepository get tv => GetIt.I.get();
-  static PreferencesRepository get preferences => GetIt.I.get();
-  static DeepLinksRepository get deepLinks => GetIt.I.get();
-  static YoutubeRepository get youtube => GetIt.I.get();
+  static AuthRepository get auth => Get.find();
+  static AccountRepository get account => Get.find();
+  static LanguageRepository get language => Get.find();
+  static GenresRepository get genres => Get.find();
+  static TrendingRepository get trending => Get.find();
+  static MoviesRepository get movies => Get.find();
+  static TvShowsRepository get tv => Get.find();
+  static PreferencesRepository get preferences => Get.find();
+  static DeepLinksRepository get deepLinks => Get.find();
+  static YoutubeRepository get youtube => Get.find();
 }
